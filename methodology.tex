@@ -1,0 +1,78 @@
+\section{Methodology}\label{chapter:4:sec:methodology}
+
+Figure \ref{fig:machine-learning-methodology} shows the methodology used in our experiments to address the proposed research questions. The methodology followed the traditional machine learning pipeline that comprises the steps: data preprocessing, feature extraction, training, and testing predicting models.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/machine-learning-workflow-machine-learning-methodology.pdf}
+    \caption{Steps of experiments methodology based on machine learning pipeline.}
+    \label{fig:machine-learning-methodology}
+\end{figure}
+
+It is worth noticing that we used only BERT\textsubscript{BASE} for feature extraction among existing BERT models. For simplicity, for the rest of this document, we will use just BERT to stand for the BERT\textsubscript{BASE} model.
+
+\subsection{Data Preprocessing}
+
+We downloaded bug reports from bug tracking repositories, investigated and interpreted their data structure, labeled them in short-lived or long-lived. \todo{2.8 - who did this steps?}Afterward, we applied text mining procedures and split and stored processed bug reports into training and testing sets. We ran our experiments over six FLOSS projects fairly popular in research papers~\cite{Lamkanfi:2010, Lamkanfi:2010b, Lamkanfi:2011, Tian:2012, Valdivia:2014, gomes:2019}: Eclipse,\footnote{\url{https://www.eclipse.org} (As of April 2021).} Freedesktop,\footnote{\url{https://www.freedesktop.org} (As of April 2021).} GCC,\footnote{\url{https://gcc.gnu.org/} (As of April 2021).} Gnome,\footnote{\url{https://www.gnome.org} (As of April 2021).} Mozilla,\footnote{\url{https://www.mozilla.org} (As of April 2021).} and WineHQ.\footnote{\url{https://www.winehq.org} (As of April 2021).}
+
+From each FLOSS project, we extracted bug reports hosted on the Bugzilla BTS. Then, we stored them into one file per project in a CSV format. These datasets are publicly available on \href{https://data.mendeley.com/datasets/v446tfssgj/2}{Mendeley Data}\todo{ISSUES: 2.10 - dataset should available for review} Table~\ref{tab:floss_projects} shows additional information on the six datasets considered in our study.
+
+\begin{table}[ht!]
+  \centering
+  \caption{FLOSS projects used in our research.}
+  \label{tab:floss_projects} 
+  \begin{tabular}{@{}lrcc@{}}
+    \toprule
+    \multirow{2}{*}{{\bf Project}}  & \multicolumn{3}{c}{{\bf Number of Bug Reports}} \\ \cmidrule(l){2-4} 
+                             & {\bf Total}                         & {\bf Training set}         & {\bf Testing set}          \\ \midrule
+    Eclipse                  & 9540                                         & 7155   & 2385  \\
+    Freedesktop              & 7626                                         & 5719   & 1907  \\
+    GCC                      & 9961                                         & 7470   & 2491  \\
+    Gnome                    & 7755                                         & 5816   & 1939  \\
+    Mozilla                  & 9776                                         & 7332   & 2444  \\
+    WineHQ                   & 6058                                         & 4543   & 1515  \\ \bottomrule
+  \end{tabular}
+\end{table}
+
+Raw data collected from FLOSS' Bugzilla BTS were not suitable for training and testing steps in ML pipeline~\cite{DeJonge:2013}. The recommended approach to convert the raw data to an appropriate format is to run procedures to extract, organize, and structure relevant features to address the proposed research questions. To accomplish this, we wrote specific codes to perform the following data preparation tasks:  
+
+\begin{itemize}
+ \item Selection of bug reports with a {\em Closed} or {\em Resolved} status and a {\em Fixed} resolution status. The development team effectively fixed this bug report. It can no longer have altered its resolution date.
+ \item Choosing of relevant attributes: {\it bug id}, {\it opened date}, {\it description}, {\it resolution date}; 
+ \item Computation of the bug fix time in days~(the resolution date minus the open date). We considered the resolution date as the ground truth. 
+ \item Labeling each bug report in `short' or `long-lived' based on its bug fix time. We labeled bugs with bug fix time less or equal to its median as `short-lived'; otherwise, as `long-lived'~\cite{gomes:2019}.
+ \item Cleaning bug report description text to remove out non-alphabetical characters and English stop words.
+\end{itemize}
+
+Finally, we split each dataset into training (75\% of bug reports total) and testing (25\% of bug reports total) sets.
+
+
+\subsection{Feature Extraction}
+\textcolor{red}{is ve} After the data preprocessing step, we used two distinct strategies to extract features from bug report descriptions for comparing them in long-lived prediction task, as shown in~(Figure~\ref{fig:machine-learning-methodology}): BERT or TF-IDF. Although BERT allows 512 tokens per input sentence~\cite{Devlin:2019}, for saving memory resource and faster training of pre-training model, we selected the 128 first tokens of the bug report description~\cite{ardimento:2020, sun:2020}. Then, we generated a embedding feature vector with 768 positions from the aggregate representation of input sentence denoted by \textsc{[CLS]} token of BERT. In turn, we used the 128 words with the highest score in TF-IDF from bug report description. In this way, TF-IDF generated a feature vector of inverse-frequency words with 128 positions.
+
+\subsection{Training Model}
+
+We chose five well-known ML classifiers to predict long-lived bugs and implemented them using the Scikit-learn\footnote{\url{https://scikit-learn.org/stable/} (As of April 2021).} -- a Python library to build the predictive models, including a grid search procedure to select the best hyper-parameter for each classifier in training among the hyper-parameters available (Table \ref{tab:hyperparameters-candidates}). The scripts using the before-mentioned library evaluated each model using the Balanced Accuracy metric and reported the resulting values.  To select the best model for each ML classifier, we trained and tested each model using the Repeated $10 \times 5$ Fold Cross-Validation technique~\cite{Japkowicz:2011}\footnote{Repeated Cross-Validation $n \times k$: divides a dataset into $k$ folds in $n$ iterations. In each iteration, it saves a different fold for testing and uses all the others for training~\cite{kuhn:2013}.}. \textcolor{red}{ISSUES: 2.11 - give more details about Wilcoxon and Repeated Cross-Validation}
+Finally, we performed the Wilcoxon signed-rank statistical test~\cite{Wilcoxon:1992} (with a significance level of 95\%) to evaluate the statistical significance among the ML classifier accuracies based on values reported in the Repeated Cross-Validation procedure. We ran these steps either for BERT or TF-IDF feature vectors independently.
+\textcolor{red}{ISSUES: 2.4, 2.12 - give more details about hyperparameters selection}
+\begin{table}[!t]\centering
+	\caption{Candidate hyperparameters values for ML classifiers.}
+	\begin{tabular}{@{}p{3cm}p{5.5cm}@{}}
+		\toprule
+		\textbf{ML Classifier} & \textbf{Hyperparameters} \\ 
+		\midrule
+    k-NN & k = \{5, 11, 15, 21, 25, 33\}\\
+    Na\"ive Bayes & var\_smoothing = $\{10,\dots, 10^{-9}\}$\tablefootnote{100 numbers evenly spaced on a log scale.}\\
+		Neural Network & size= \{(10, 20, 30, 40, 50)\}, \{(20 ,)\}, activation=`relu', solver=`adam', alpha=\{0.0001, 0.05\}\\ 
+    Random Forest & max\_features = \{25, 50, 75, 100\} and n\_estimators = 200\\
+		SVM & C=$2^{-5}$, $2^{0}$, $2^{5}$, $2^{10}$ and gamma= $\{2^{-15}$, $2^{-10}$, 
+$2^{-5}$, $2^{0}$, $2^5\}$, kernel=`rbf'\\
+		\bottomrule
+	\end{tabular}
+
+  	 \label{tab:hyperparameters-candidates}
+\end{table}
+
+\subsection{Testing Model}
+In the testing phase, each long-lived prediction model was validated with 25\% of each bug report testing dataset to measure its balanced accuracy in an unknown dataset. Also, we ran this step for either BERT or TF-IDF feature vectors, separately.
+

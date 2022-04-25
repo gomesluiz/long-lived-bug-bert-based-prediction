@@ -1,0 +1,67 @@
+%! TEX root = main.tex 
+\documentclass{elsarticle}
+\usepackage{bibentry}
+\usepackage{booktabs}
+\usepackage{calc}
+\usepackage{color}
+\usepackage{doi}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{footnote}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{longtable}
+\usepackage{subcaption}
+\usepackage{url}
+\usepackage{tablefootnote}
+\nobibliography*
+
+%\useunder{\uline}{\ul}{}
+% *** GRAPHICS RELATED PACKAGES ***
+%\ifCLASSINFOpdf
+%  \usepackage[pdftex]{graphicx}
+%  \graphicspath{{figures/}}
+%  \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+%\else
+%  \usepackage[dvips]{graphicx}
+%  \graphicspath{{figures/}}
+%  \DeclareGraphicsExtensions{.eps}
+%\fi
+
+\newif\ifComments
+
+\Commentstrue
+
+\ifComments
+\newcommand{\todo}[1]{\noindent\textcolor{magenta}{{TODO: #1}}}
+\else
+\newcommand{\todo}[1]{}
+\fi
+
+%\newlength\fitlength
+%\setlength\fitlength{\dimexpr.5\columnwidth-2\tabcolsep-0.5\arrayrulewidth\relax}
+
+\begin{document}
+    \begin{frontmatter}
+        \input{titles}
+        \input{abstract}
+        \input{keywords}
+    \end{frontmatter}
+    \input{introduction}
+    \input{background}
+    \input{related-works}
+    \input{methodology}
+    \input{results}
+    \input{discussions}
+    \input{validity}
+    \input{conclusion}
+    \input{acknowledgments}
+    %\nocite{*}
+    \bibliographystyle{elsarticle-num}
+    \bibliography{references}
+\end{document}
+
+

@@ -1,0 +1,10 @@
+\section{Conclusions}\label{chapter:4:sec:conclusion}
+\textcolor{red}{ISSUES: 2.20 - conclusion Section should not contain references.}
+
+Our paper investigated the impact of BERT-based feature extraction on the accuracy of ML classifiers in contrast with TF-IDF in long-lived prediction tasks. We used six well-known ML classifiers: KNN, Näive Bayes, Neural Network, Random Forest, and SVM. The datasets used in our experiments were built from bug reports extracted from six popular datasets: Eclipse, Freedesktop, Gnome, Gcc, Mozilla, and WineHQ.
+
+The results indicated that the accuracy of ML classifiers using BERT-based feature extraction, considering only the description attribute, was very promising. The SVM and Random Forest outperform others in almost all datasets~($RQ_{1}$). In comparison, the performance of ML classifiers when they used feature extraction based on BERT was systematically better than feature extraction based on TF-IDF. The highest accuracy difference occurred in Mozilla and the lowest in the Gnome project~($RQ_{2}$).
+
+Finally, we characterized true positives (correctly predicted as long-lived bugs) and false negatives (incorrectly predicted as short-lived bugs) based on their associated reporter name, assignee, component, and severity level~($RQ_{3}$). We observed that the accuracy from these attributes' perspectives somewhat varied, analyzing each feature extracting strategy separately or comparing them together.
+
+A possible venue for future research is to investigate other quantities and truncating methods (head-only, tail-only, head+tail)~\cite{Gonzalez:2020} for extracting words from the description attribute. Another research direction is to investigate an end-to-end deep learning neural network predictor by performing fine-tuning on BERT pre-trained model.

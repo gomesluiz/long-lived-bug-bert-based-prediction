@@ -1,0 +1,290 @@
+\section{Results}\label{chapter:4:sec:results}
+
+\textcolor{red}{ISSUES: 1.4 - poor performance of the proposed approach; 2.15 - Organize text and figures; 2.16 - Merge results and discussions; 3.4 - Results are not convincing; 3.5 - It is not clear if the paper followed the traditional setup, or just trained on bug reports.}
+This section reports our experiments' results, and is organized according to our study's research question. 
+
+\subsection {RQ1.What is the comparative accuracy of ML classifiers when predicting long-lived bugs using BERT-based feature extraction?}\label{result:rq1}
+
+Figure~\ref{fig:rq1-all-balanced-accuracies-bert} shows the long-lived bug prediction performance of ML classifiers for the six projects. In this experiment, we considered the features extracted from the bug report's description using BERT. In the figure, we can observe that the SVM was the best in three datasets: 59.5\% in Freedesktop, 56.8\% in GCC, and 61.5\% in Mozilla. Also, we can see that the SVM was slightly worse than Random Forest~(RF) in Eclipse (57.4\% versus 57.6\%) and Gnome (56.4\% versus 56.6\%), and k-NN (57.3\% versus 57.9\%) in WineHQ.
+
+\begin{figure*}[t!]
+  \begin{subfigure}{.48\linewidth}
+    \centering
+    \caption{Eclipse}
+    \includegraphics[width=\textwidth]{figures/rq1-eclipse-balanced-accuracy.pdf}
+    \label{fig:rq1-eclipse-balanced-accuracy}
+  \end{subfigure}\hfill
+  \begin{subfigure}{.48\linewidth}
+    \centering
+    \caption{Freedesktop}
+    \includegraphics[width=\textwidth]{figures/rq1-freedesktop-balanced-accuracy.pdf}
+    \label{fig:rq1-freedesktop-balanced-accuracy}
+  \end{subfigure}\hfill
+  \begin{subfigure}{.48\linewidth}
+    \centering
+    \caption{Gcc}
+    \includegraphics[width=\textwidth]{figures/rq1-gcc-balanced-accuracy.pdf}
+    \label{fig:rq1-gcc-balanced-accuracy} 
+  \end{subfigure}\hfill
+  \begin{subfigure}{.48\linewidth}
+    \centering
+    \caption{Gnome}
+    \includegraphics[width=\textwidth]{figures/rq1-gnome-balanced-accuracy.pdf}
+    \label{fig:rq1-gnome-balanced-accuracy} 
+  \end{subfigure}\hfill
+  \begin{subfigure}{.48\linewidth}
+    \centering
+    \caption{Mozilla}
+    \includegraphics[width=\textwidth]{figures/rq1-mozilla-balanced-accuracy.pdf}
+    \label{fig:rq1-mozilla-balanced-accuracy} 
+  \end{subfigure}\hfill
+  \begin{subfigure}{.48\linewidth}
+    \centering
+    \caption{WineHQ}
+    \includegraphics[width=\textwidth]{figures/rq1-winehq-balanced-accuracy.pdf}
+    \label{fig:rq1-winehq-balanced-accuracy.pdf} 
+  \end{subfigure}
+  \caption{Performance based on the balanced accuracy metric for all classifiers for all datasets. The solid yellow color highlights the best classifier when using the BERT-Based feature extraction for each dataset.}
+  \label{fig:rq1-all-balanced-accuracies-bert}
+\end{figure*}
+
+Table~\ref{tab:rq1-balanced-accuracy-statistical-test} shows the statistical significance for each ML classifier's balanced accuracy pair yielded during the Repeated Cross-Validation process in the training step, as mentioned in the Methodology section. We can observe that the SVM classifier~(highlighted in blue) outperformed the others with statistical significance in many cases. 
+
+\begin{table*}[ht!]
+\centering
+\caption{\textcolor{red}{2.13 - give more details about statistical test}The Wilcoxon Signed-Rank statistical significance for balanced accuracies in long-lived bug prediction. Each cell shows the results of a single classifier paired with the other. Left (`$\leftarrow$') and up (`$\uparrow$') arrows indicate the most accurate, while an `$-$' refers to ``no statistical difference between the pairs of classifiers" in the row and the column.}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|} 
+\hline
+\multicolumn{2}{|c|}{} & knn & nb & nn & rf & svm &  & knn & nb & nn & rf & svm \\ 
+\hline
+\multirow{5}{*}{\rotatebox[origin=c]{90}{\scriptsize{Eclipse}}} & knn & $-$ & $\uparrow$ & $\leftarrow$ & $\uparrow$ & \textcolor{blue}{$\uparrow$} & \multirow{5}{*}{\rotatebox[origin=c]{90}{\scriptsize{Freedesktop}}} & $-$ & $\uparrow$ & $\leftarrow$ & $\uparrow$ & \textcolor{blue}{$\uparrow$} \\ 
+\cline{2-7}\cline{9-13}
+ & nb & $\leftarrow$ & $-$ & $\leftarrow$ & $-$ & $-$ &  & $\leftarrow$ & $-$ & $\leftarrow$ & $\uparrow$ & \textcolor{blue}{$\uparrow$} \\ 
+\cline{2-7}\cline{9-13}
+ & nn & $\uparrow$ & $\uparrow$ & $-$ & $\uparrow$ & \textcolor{blue}{$\uparrow$} &  & $\uparrow$ & $\uparrow$ & $-$ & $\uparrow$ & \textcolor{blue}{$\uparrow$} \\ 
+\cline{2-7}\cline{9-13}
+ & rf & $\leftarrow$ & $-$ & $\leftarrow$ & $-$ & \textbf{$-$} &  & $\leftarrow$ & $\leftarrow$ & $\leftarrow$ & $-$ & \textcolor{blue}{$\uparrow$} \\ 
+\cline{2-7}\cline{9-13}
+ & svm & $\leftarrow$ & $-$ & $\leftarrow$ & $-$ & \textcolor{blue}{$-$} &  & $\leftarrow$ & $\leftarrow$ & $\leftarrow$ & $\leftarrow$ & $-$ \\ 
+\hline
+\multicolumn{1}{|l|}{\multirow{5}{*}{\rotatebox[origin=c]{90}{\scriptsize{Gcc}}}} & knn & $-$ & $-$ & $-$ & $\uparrow$ & \textcolor{blue}{$\uparrow$} & \multicolumn{1}{l|}{\multirow{5}{*}{\rotatebox[origin=c]{90}{\scriptsize{Gnome}}}} & $-$ & $-$ & $\leftarrow$ & $\uparrow$ & \textcolor{blue}{$\uparrow$} \\ 
+\cline{2-7}\cline{9-13}
+\multicolumn{1}{|l|}{} & nb & $-$ & $-$ & $-$ & $\uparrow$ & \textcolor{blue}{$\uparrow$} & \multicolumn{1}{l|}{} & $-$ & $-$ & $\leftarrow$ & $\uparrow$ & \textcolor{blue}{$\uparrow$} \\ 
+\cline{2-7}\cline{9-13}
+\multicolumn{1}{|l|}{} & nn & $-$ & $-$ & $-$ & $\uparrow$ & \textcolor{blue}{$\uparrow$} & \multicolumn{1}{l|}{} & $\uparrow$ & $\uparrow$ & $-$ & $\uparrow$ & \textcolor{blue}{$\uparrow$} \\ 
+\cline{2-7}\cline{9-13}
+\multicolumn{1}{|l|}{} & rf & $\leftarrow$ & $\leftarrow$ & $\leftarrow$ & $-$ & \textcolor{blue}{$\uparrow$} & \multicolumn{1}{l|}{} & $\leftarrow$ & $\leftarrow$ & $\leftarrow$ & $-$ & $-$ \\ 
+\cline{2-7}\cline{9-13}
+\multicolumn{1}{|l|}{} & svm & $\leftarrow$ & $\leftarrow$ & $\leftarrow$ & $\leftarrow$ & $-$ & \multicolumn{1}{l|}{} & $\leftarrow$ & $\leftarrow$ & $\leftarrow$ & $-$ & $-$ \\ 
+\hline
+\multirow{5}{*}{\rotatebox[origin=c]{90}{\scriptsize{Mozilla}}} & knn & $-$ & $-$ & $\leftarrow$ & $\uparrow$ & \textcolor{blue}{$\uparrow$} & \multirow{5}{*}{\rotatebox[origin=c]{90}{\scriptsize{WineHQ}}} & $-$ & $\uparrow$ & $-$ & $\uparrow$ & \textcolor{blue}{$\uparrow$} \\ 
+\cline{2-7}\cline{9-13}
+ & nb & $-$ & $-$ & $\leftarrow$ & $\uparrow$ & \textcolor{blue}{$\uparrow$} &  & $\leftarrow$ & $-$ & $\leftarrow$ & $\uparrow$ & \textcolor{blue}{$\uparrow$} \\ 
+\cline{2-7}\cline{9-13}
+ & nn & $\uparrow$ & $\uparrow$ & $-$ & $\uparrow$ & \textcolor{blue}{$\uparrow$} &  & $-$ & $\uparrow$ & $-$ & $\uparrow$ & \textcolor{blue}{$\uparrow$} \\ 
+\cline{2-7}\cline{9-13}
+ & rf & $\leftarrow$ & $\leftarrow$ & $\leftarrow$ & $-$ & \textcolor{blue}{$\uparrow$} &  & $\leftarrow$ & $\leftarrow$ & $\leftarrow$ & $-$ & \textcolor{blue}{$\uparrow$} \\ 
+\cline{2-7}\cline{9-13}
+ & svm & $\leftarrow$ & $\leftarrow$ & $\leftarrow$ & $\leftarrow$ & $-$ &  & $\leftarrow$ & $\leftarrow$ & $\leftarrow$ & $\leftarrow$ & $-$ \\
+\hline
+\end{tabular}
+}
+\label{tab:rq1-balanced-accuracy-statistical-test}
+\end{table*}
+
+\subsection {RQ2.What is the comparative accuracy of ML classifiers when predicting long-lived bugs using BERT-based feature extraction or TF-IDF-based feature extraction?}
+
+Figure~\ref{fig:rq2-all-balanced-accuracies-bert-vs-tfidf} shows a comparison between the classifiers' accuracy performance when the long-lived bug prediction relies on features extracted from the bug report's description using BERT or TF-IDF. We can observe that the long-lived bug prediction's general performance using BERT-based feature extraction was systematically better than TF-IDF in all datasets. The most remarkable difference (9.4\%) between classifiers' performance occurred in the Mozilla dataset when SVM with BERT reaching 61.5\% and  Neural Network, 52.1\%. Only in Gnome, the Neural Network with TF-IDF was slightly better than this classifier with BERT.
+
+\begin{figure*}[!t]
+  \begin{subfigure}{.48\linewidth}
+    \centering
+    \caption{Eclipse}
+    \includegraphics[width=\textwidth]{figures/rq2-eclipse-balanced-accuracy.pdf}
+    \label{fig:rq2-eclipse-balanced-accuracy}
+  \end{subfigure}\hfill
+  \begin{subfigure}{.48\linewidth}
+    \centering
+    \caption{Freedesktop}
+    \includegraphics[width=\textwidth]{figures/rq2-freedesktop-balanced-accuracy.pdf}
+    \label{fig:rq2-freedesktop-balanced-accuracy}
+  \end{subfigure}\hfill
+  \begin{subfigure}{.48\linewidth}
+    \centering
+    \caption{Gcc}
+    \includegraphics[width=\textwidth]{figures/rq2-gcc-balanced-accuracy.pdf}
+    \label{fig:rq2-gcc-balanced-accuracy} 
+  \end{subfigure}\hfill
+  \begin{subfigure}{.48\linewidth}
+    \centering
+    \caption{Gnome}
+    \includegraphics[width=\textwidth]{figures/rq2-gnome-balanced-accuracy.pdf}
+    \label{fig:rq2-gnome-balanced-accuracy} 
+  \end{subfigure}\hfill
+  \begin{subfigure}{.48\linewidth}
+    \centering
+    \caption{Mozilla}
+    \includegraphics[width=\textwidth]{figures/rq2-mozilla-balanced-accuracy.pdf}
+    \label{fig:rq2-mozilla-balanced-accuracy} 
+  \end{subfigure}\hfill
+  \begin{subfigure}{.48\linewidth}
+    \centering
+    \caption{WineHQ}
+    \includegraphics[width=\textwidth]{figures/rq2-winehq-balanced-accuracy.pdf}
+    \label{fig:rq2-winehq-balanced-accuracy} 
+  \end{subfigure}
+  \caption{\textcolor{red}{2.14 - Why is it important to show this charts?}The performance for all classifiers over all datasets based on the balanced accuracy metric, for both BERT- and TF-IDF-based feature extraction. The solid yellow color highlights the best classifier when using the BERT-based feature extraction, while the yellow hashed color highlights the best classifier when using the TF-IDF-based feature extraction for each dataset in the testing step.}
+  \label{fig:rq2-all-balanced-accuracies-bert-vs-tfidf}
+\end{figure*}
+
+\textcolor{red}{ISSUES: 1.8 - provide statistical significance tests}
+Figure~\ref{fig:rq2-all-difference-bert-vs-tfidf} summarizes the accuracy performance difference between ML classifiers using feature extraction based on BERT  and TF-IDF for all project datasets. The highest difference in favor of BERT was observed for Mozilla and the lowest, for Gnome.
+ 
+ \begin{figure}[ht!]
+     \centering
+     \includegraphics[width=.70\textwidth]{figures/rq2-all-difference-bert-vs-tfidf.pdf}
+     \caption{The performance difference between ML classifiers over investigated FLOSS when they used BERT- or TF-IDF-based feature extraction. }
+     \label{fig:rq2-all-difference-bert-vs-tfidf}
+ \end{figure}
+      
+\subsection {RQ3.What are the main characteristics of bugs correctly predicted as long-lived (True Positive) and incorrectly predicted as short-lived (False Negative) when using BERT- or TF-IDF-based feature extraction?}
+
+Even if our long-lived bug prediction models do not accurately predict many long-lived bugs, it could be handy to investigate the characteristics of those with high and low accuracies. We investigated both scenarios based on reporters, assignees, components, and severity levels bug reports' attributes from the Mozilla dataset, on which the best results for long-lived bug prediction were observed.
+
+\subsubsection{Reporter}
+Figure~\ref{fig:rq3-mozilla-all-top-reporter_name} shows that {\bf 7 out of 20} reporters yielded 60\% or more true positives for all bugs allocated for them in long-lived prediction using the BERT-based feature extraction. In comparison, {\bf 5 out of 20} reporters yielded 60\% or more true positives in the prediction task using the TF-IDF-based feature extraction. We can note there was a slight difference between these values. However, if we observe more carefully, we can realize the number of bug reports opened for those seven assignees in BERT was {\bf 68}, and for those five assignees in TF-IDF, it was {\bf 40}.  In both situations, considering all reporter's bugs reports, none of them reached 100\% of true positives in long-lived bug prediction. The highest true positive score was {\bf $\approx$ 83\%} for {\bf waterson}~(for BERT) and {\bf sspitzer}~(for TF-IDF).
+
+\begin{figure*}[!ht]
+  \begin{subfigure}{.50\linewidth}
+    \centering
+    \caption{BERT}
+    \includegraphics[width=\textwidth]{figures/rq3-mozilla-bert-top-reporter_name.pdf}
+    \label{fig:rq3-mozilla-bert-top-reporter_name}
+  \end{subfigure}\hfill
+  \begin{subfigure}{.50\linewidth}
+    \centering
+    \caption{TF-IDF}
+    \includegraphics[width=\textwidth]{figures/rq3-mozilla-tfidf-top-reporter_name.pdf}
+    \label{fig:rq3-mozilla-tfidf-top-reporter_name}
+  \end{subfigure}\hfill
+  \caption{False Negatives/True Positives by reporter yielded on long-lived bug prediction model in testing step using the (a) BERT- or (b) TF-IDF-based feature extraction.}
+  \label{fig:rq3-mozilla-all-top-reporter_name}
+\end{figure*}
+
+\subsubsection{Assignee}
+Figure~\ref{fig:rq3-mozilla-all-top-assignee_name} shows that {\bf 8 out of 20} assignees yielded 60\% or more true positives for all bugs allocated for them in long-lived prediction using BERT-based feature extraction. In comparison, {\bf 4 out of 20} assignees yielded 60\% or more true positives in the prediction task using TF-IDF. If we observe more carefully, we can realize the number of bug reports allocated for that eight assignees in BERT was {\bf 214}, and for that four assignees in TF-IDF was {\bf 39}.  In both situations, considering all assignee's bugs reports, none of them reached 100\% of true positives in long-lived bug prediction. The highest true positives score was {\bf $\approx$ 88\%} for {\bf mscott's} (for BERT) and {\bf $\approx$ 80\%} for {\bf nelson's} bugs reports (for TF-IDF).
+
+\begin{figure*}[!t]
+  \begin{subfigure}{.50\linewidth}
+    \centering
+    \caption{BERT}
+    \includegraphics[width=\textwidth]{figures/rq3-mozilla-bert-top-assignee_name.pdf}
+    \label{fig:rq3-mozilla-bert-top-assignee_name}
+  \end{subfigure}\hfill
+  \begin{subfigure}{.50\linewidth}
+    \centering
+    \caption{TF-IDF}
+    \includegraphics[width=\textwidth]{figures/rq3-mozilla-tfidf-top-assignee_name.pdf}
+    \label{fig:rq3-mozilla-tfidf-top-assignee_name}
+  \end{subfigure}\hfill
+  \caption{False Negatives/True Positives by assignee yielded on long-lived bug prediction model in testing step using (a) BERT- or (b) TF-IDF-based feature extraction.}  
+  \label{fig:rq3-mozilla-all-top-assignee_name}
+\end{figure*}
+
+Figure~\ref{fig:rq3-mozilla-bert-tfidf-reporter_name-vs-assignee_name} draws the relationship between assignees and the best seven reporters in BERT (Figure~\ref{fig:rq3-mozilla-bert-reporter_name-vs-assignee_name}) and the best five reporters in TF-IDF (Figure~\ref{fig:rq3-mozilla-tfidf-reporter_name-vs-assignee_name}), both with true positive rates above 60\%.  We can observe that among assignees with the \textbf{eight} highest true positive rates in BERT, \textbf{four} are in charge of bugs reported by \textbf{bzbarsky}, which had the fourth true positive rate with this feature extractor (Figure~\ref{fig:rq3-mozilla-bert-reporter_name-vs-assignee_name}). Also, we can note the among assignee with the \textbf{four} highest true positive rates in TF-IDF, only one is in charge of bugs reported by \textbf{jruderman} and \textbf{roc}, which had respectively the second and the fourth true positive rates in TF-IDF. However, assignees were in charge of 8\% and 10\% of bug reports opened by  the best eight reporters in BERT and the best five reporters in TF-IDF (Figure~\ref{fig:rq3-mozilla-tfidf-reporter_name-vs-assignee_name}), respectively. Furthermore, it is worth to pay attention that a relevant number of bug reports were opened by own assignee, such as \textbf{LpSolit}, \textbf{bzbarsky}, \textbf{mkanat}, \textbf{mozilla}, and \textbf{timeless}.
+
+\begin{figure*}[!ht]
+  \begin{subfigure}{\linewidth}
+    \centering
+    \caption{BERT\textsubscript{BASE}}
+    \includegraphics[width=\textwidth]{figures/rq3-mozilla-bert-reporter_name-vs-assignee_name.pdf}
+    \label{fig:rq3-mozilla-bert-reporter_name-vs-assignee_name}
+  \end{subfigure}\hfill
+  \begin{subfigure}{\linewidth}
+    \centering
+    \caption{TF-IDF}
+    \includegraphics[width=\textwidth]{figures/rq3-mozilla-tfidf-reporter_name-vs-assignee_name.pdf}
+    \label{fig:rq3-mozilla-tfidf-reporter_name-vs-assignee_name}
+  \end{subfigure}\hfill
+  \caption{Relationship between highest assignees and bug reporters in (a) BERT and (b) TF-IDF. The yellow star symbol represents the best bug reporters, and the size of symbols represents the number of bug reports.}
+  \label{fig:rq3-mozilla-bert-tfidf-reporter_name-vs-assignee_name}
+\end{figure*}
+
+\subsubsection{Component}
+Figure~\ref{fig:rq3-mozilla-all-top-component_name} shows that {\bf 10 out of 20} components yielded 60\% or more true positives for all bugs reported for them in long-lived prediction using BERT-base feature extraction. In comparison, no components yielded 60\% or more true positives in the prediction task using TF-IDF. We can note there was a considerable difference between these values. In both situations, considering all components' bugs reports, none of them reached 100\% of true positives in long-lived bug prediction. When the long-lived bug prediction used BERT feature vectors, the highest true positives score was {\bf $\approx$ 91\%} on {\bf Disability Access APIs'} bugs reports. On the other hand, using TF-IDF feature vectors, the highest true positives score was {\bf $\approx$ 54\%} on {\bf JavaScript Engine's} bugs reports.
+
+\begin{figure*}[!ht]
+  \begin{subfigure}{.50\linewidth}
+    \centering
+    \caption{BERT}
+    \includegraphics[width=\textwidth]{figures/rq3-mozilla-bert-top-component_name.pdf}
+    \label{fig:rq3-mozilla-bert-top-component_name}
+  \end{subfigure}\hfill
+  \begin{subfigure}{.50\linewidth}
+    \centering
+    \caption{TF-IDF}
+    \includegraphics[width=\textwidth]{figures/rq3-mozilla-tfidf-top-component_name.pdf}
+    \label{fig:rq3-mozilla-tfidf-top-component_name}
+  \end{subfigure}\hfill
+  \caption{False Negatives/True Positives by component yielded on long-lived bug prediction model in testing step using (a) BERT- or (b) TF-IDF-based feature extraction.}
+  \label{fig:rq3-mozilla-all-top-component_name}
+\end{figure*}
+
+Figure~\ref{fig:rq3-mozilla-bert-tfidf-reporter_name-vs-component_name} draws the relationship between components and the best seven reporters in BERT (Figure~\ref{fig:rq3-mozilla-bert-reporter_name-vs-component_name}) and the best five reporters in TF-IDF (Figure~\ref{fig:rq3-mozilla-tfidf-reporter_name-vs-component_name}), both with true positive rates above 60\%.  We can observe that among components with the \textbf{ten} highest true positive rates in BERT, \textbf{five} are related to bugs reported by \textbf{waterson} and \textbf{bzbarsky}, which had the first and fourth true positive rate with this feature extractor (Figure~\ref{fig:rq3-mozilla-bert-reporter_name-vs-component_name}). Also, we can note the among components with the \textbf{three} highest true positive rates in TF-IDF, only one is related to bugs reported by \textbf{jruderman}, which had the best second true positive rates in TF-IDF. However, the highest components were related to only 4\% and 3\% of bug reports related to the best eight reporters in BERT and the best five reporters in TF-IDF (Figure~\ref{fig:rq3-mozilla-tfidf-reporter_name-vs-component_name}), respectively.
+
+\begin{figure*}[!ht]
+  \begin{subfigure}{\linewidth}
+    \centering
+    \caption{BERT}
+    \includegraphics[width=\textwidth]{figures/rq3-mozilla-bert-reporter_name-vs-component_name.pdf}
+    \label{fig:rq3-mozilla-bert-reporter_name-vs-component_name}
+  \end{subfigure}\hfill
+  \begin{subfigure}{\linewidth}
+    \centering
+    \caption{TF-IDF}
+    \includegraphics[width=\textwidth]{figures/rq3-mozilla-tfidf-reporter_name-vs-component_name.pdf}
+    \label{fig:rq3-mozilla-tfidf-reporter_name-vs-component_name}
+  \end{subfigure}\hfill
+  \caption{Relationship between highest components and bug reporters in (a) BERT and (b) TF-IDF. The yellow star symbol represents the best bug reporters, and the size of symbols represents the number of bug reports.}
+  \label{fig:rq3-mozilla-bert-tfidf-reporter_name-vs-component_name}
+\end{figure*}
+
+\subsubsection{Severity Level}
+Figure~\ref{fig:rq3-mozilla-all-top-severity_level.pdf} shows that {\bf half} of the severity levels yielded 60\% or more true positives for all bugs reported for them in long-lived prediction using BERT-based feature extraction. In comparison, no severity levels yielded 60\% or more true positives in the prediction task using TF-IDF. We can note there was a considerable difference between these values. In both situations, considering all components' bugs reports, none of them reached 100\% of true positives in long-lived bug prediction. When the long-lived bug prediction used BERT feature vectors, the highest true positive score was {\bf $\approx$ 71\%} on {\bf minor's} bugs reports. On the other hand, using TF-IDF feature vectors, the highest true positive score was {\bf $\approx$ 51\%} on {\bf critical's} bugs reports.
+
+\begin{figure*}[!ht]
+  \begin{subfigure}{.50\linewidth}
+    \centering
+    \caption{BERT}
+    \includegraphics[width=\textwidth]{figures/rq3-mozilla-bert-top-severity_category.pdf}
+    \label{fig:rq3-mozilla-bert-top-severity_level}
+  \end{subfigure}\hfill
+  \begin{subfigure}{.50\linewidth}
+    \centering
+    \caption{TF-IDF}
+    \includegraphics[width=\textwidth]{figures/rq3-mozilla-tfidf-top-severity_category.pdf}
+    \label{fig:rq3-mozilla-tfidf-top-severity_level}
+  \end{subfigure}\hfill
+  \caption{False Negatives/True Positives by severity level yielded on long-lived bug prediction model in testing step using (a) BERT- or (b) TF-IDF feature extraction.}
+  \label{fig:rq3-mozilla-all-top-severity_level.pdf}
+\end{figure*}
+
+Figure~\ref{fig:rq3-mozilla-bert-tfidf-reporter_name-vs-severity_category} draws the relationship between severity levels and the best eight reporters in BERT  (Figure~\ref{fig:rq3-mozilla-bert-reporter_name-vs-severity_category}) and the best five reporters in TF-IDF (Figure~\ref{fig:rq3-mozilla-tfidf-reporter_name-vs-severity_category}), both with true positive rates above 60\%.  We can observe that among severity levels with the \textbf{three} highest true positive rates in BERT, \textbf{all} are related to bugs reported by seven with highest true positive rate with this feature extractor (Figure~\ref{fig:rq3-mozilla-bert-reporter_name-vs-severity_category}). Also, we can note the severity level with the highest true positive rate in TF-IDF is related to bugs reported by \textbf{sspitzer} and \textbf{jruderman}, which had the best first and fourth true positive rates in TF-IDF respectively. However, the highest severity levels were related to 3\% and 0.5\% of bug reports related to  the best eight reporters in BERT and the best five reporters in TF-IDF (Figure~\ref{fig:rq3-mozilla-tfidf-reporter_name-vs-severity_category}), respectively.
+
+\begin{figure*}[!ht]
+  \begin{subfigure}{\linewidth}
+    \centering
+    \caption{BERT}
+    \includegraphics[width=\textwidth]{figures/rq3-mozilla-bert-reporter_name-vs-severity_category.pdf}
+    \label{fig:rq3-mozilla-bert-reporter_name-vs-severity_category}
+  \end{subfigure}\hfill
+  \begin{subfigure}{\linewidth}
+    \centering
+    \caption{TF-IDF}
+    \includegraphics[width=\textwidth]{figures/rq3-mozilla-tfidf-reporter_name-vs-severity_category.pdf}
+    \label{fig:rq3-mozilla-tfidf-reporter_name-vs-severity_category}
+  \end{subfigure}\hfill
+  \caption{Relationship between highest severity levels and bug reporters in (a) BERT and (b) TF-IDF. The yellow star symbol represents the best bug reporters, and the size of symbols represents the number of bug reports.}
+  \label{fig:rq3-mozilla-bert-tfidf-reporter_name-vs-severity_category}
+\end{figure*}

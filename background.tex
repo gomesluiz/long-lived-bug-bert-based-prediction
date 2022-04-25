@@ -1,0 +1,197 @@
+\section{Background Concepts}\label{chapter:4:sec:terminology}
+We provide in this section a set of fundamental concepts related to the main contributions of the paper.
+
+\subsection{Bug Tracking Systems \& Bug Report}
+Bug Tracking System (BTS)~\cite{Lamkanfi:2010} is a system that allows users to open bug reports and tracks associated information. A bug report may refer to change requests, bug fixes, or technical support that could occur during the life cycle of any given software.  
+
+Typically, a bug report is a form that a user should fill out to communicate a bug to software maintainers. It contains information required to reproduce, diagnose, and fix a bug while reporting a bug. Figure~\ref{chapter:4:fig:exemplo-de-bug-report} illustrates a bug report from the WineHQ project containing data that describe the bug 4123. If we observe the {\it Status}, {\it Reported}, and {\it Modified} fields in this bug report, we can note that this bug is still with status equals to {\it New} even been reported in 2005-12-21. Yet, it seems that is an active bug because it was modified in 2020-06-23. There is no agreement on the terminology or on the amount of information that users and maintenance teams must provide to fill a bug report~\cite{Tian:2012}. They often describe their needs in popular BTS, providing at least information about the attributes shown in Table~\ref{chapter:4:tab:commom_attributes_bts_form}.  
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=.85\columnwidth]{figures/exemplo-bug-report-winehq.png}
+    \caption{A bug report example from WineHQ~(\url{https://bugs.winehq.org/show_bug.cgi?id=4123)}, as of March 2021.}
+    \label{chapter:4:fig:exemplo-de-bug-report}
+\end{figure}
+
+\begin{table*}[ht!] 
+  \caption{Common attributes of a bug report~\cite{Singh:2017}.}
+  \label{chapter:4:tab:commom_attributes_bts_form}
+  \centering
+  \begin{tabular}{lp{8cm}}
+    \toprule
+	\textbf{Attribute} & \textbf{Description} \\
+	\midrule
+    Bug Reporter    & Account of the user who created the bug report.\\
+    \midrule
+    Summary         & Short description of the report in one line.\\
+    \midrule
+    Description     & Long and detailed description of report in many lines of text. It could include source code snippets and stack tracing reports.\\
+    \midrule
+    Component       & Each product is divided into different components (e.g., Core, Editor, and UI).\\
+    \midrule
+    Severity        & Report severity level (e.g., blocker, critical, major, minor, and trivial).\\
+    \midrule
+    Type            & Type of report (e.g., bug, improvement, and new feature)\\
+    \midrule
+    Assignee        &  Account of the user in charge of fixing the bug.\\
+    \bottomrule  \\
+  \end{tabular}
+\end{table*}
+
+After the user has reported a bug, the development team is in charge of its assessment, which consists of its approval or rejection. In case of approval, the team may provide complementary information, for example, assigning a person responsible for the request or defining the severity level for the bug. 
+
+Typically, the steps a bug report goes through are modeled as a state machine (Figure~\ref{chapter:4:fig:life-cycle-of-bug-report}). At first, the bug report is said to be \textit{Unconfirmed}. The developer team can change the status to \textit{Resolved} if the bug is not confirmed or, otherwise, to \textit{New}. When someone becomes in charge of fixing the bug, the bug report state is changed to \textit{Assigned} by the developer team. Therefore, in the standard flow, the bug report status is assigned to {\em Resolved} (bug fixed), then {\em Verified} (bug checked), and finally {\em Closed}.  
+
+As shown in Figure~\ref{chapter:4:fig:life-cycle-of-bug-report}, other state transitions may occur throughout the bug report life cycle. All changes that are registered in a bug report are often stored in a repository, keeping valuable historical information about a particular software.
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=\columnwidth]{figures/bug-report-life-cycle-chapter-4.pdf}
+  \caption{The bug report life cycle according to Zhang et al.~\cite{Zhang:2015}.}
+  \label{chapter:4:fig:life-cycle-of-bug-report}
+\end{figure}
+
+\subsection{Machine Learning}
+
+Machine Learning~(ML) is a field of study of Artificial Intelligence~(AI). It gives computers the ability to learn and improve from data without being explicitly programmed~\cite{geron:2019, Flach:2012}. There are many different types
+of ML systems: supervised, unsupervised, semi-supervised, and reinforcement learning. The long-lived bugs prediction is considered a supervised learning task. A supervised algorithm builds a model based on historical training data features. It then uses the built model to predict the output or class label for a new sample. 
+
+\subsubsection{Classifiers}
+
+An ML algorithm works over a dataset, which contains many samples $x_{i}$, where $i = 1,2,\dots,n$. Each instance is composed of $\{x_{i1}, x_{i2},...,x_{id}\}$ input attributes or independent variables, where $d = 1,2,\dots,m$, and one output attribute or dependent variable, $x_{i(m+1)}$. Input attributes are often called features, and output attributes are target labels in Machine Learning. Many ML algorithms can be used in more than one learning task. However, this paper regards the selected algorithms only in the classification scenario. A brief description of each classifier used in our experiments is presented below~\cite{Marsland:2014}:
+
+\begin{itemize}
+  \item {\bf k-Nearest Neighbors~(KNN)} classifies a new sample based on the geometric distance to the k-nearest labeled neighbors. The KNN commonly quantifies the proximity among neighbors using Euclidean distance. Each instance in a dataset represents a point in an n-dimensional space in order to calculate this distance.
+  
+  \item {\bf Na\"ive Bayes~(NB)} decides to which class an instance belongs based on the Bayesian theorem of conditional probability. The probabilities of an instance belonging to each of the $C_{k}$ classes given the instance $x$ is $P(C_{k}|x )$. Na\"ive Bayes classifiers assume that, given the class variable, the value of a particular feature is independent of the value of any other feature.
+  
+  \item {\bf Neural Network (NN)} is a classifier that is inspired by the structure and functional aspects of biological neural networks~\cite{Haykin:1998}. It is structured as a network of units called neurons, with weighted, directed connections. Neural network models have been demonstrated to be capable of achieving remarkable performance in document classification~\cite{Zhou:2012}.
+  
+  \item {\bf Random Forest (RF)}  relies on two core principles: (i) the creation of hundreds of decision trees and their combination into a single model; and (ii) the final decision based on the majority of the considered trees~\cite{Breiman:2001}.
+    
+  \item {\bf Support Vector Machine (SVM)} is a classifier in which each feature vector of each instance is a point in an n-dimensional space. In this space, SVM learns an optimal way to separate the training instances according to their class labels. The output of this classifier is a hyperplane, which maximizes the separation among feature vectors of different classes. Given a new instance, SVM assigns a label based on which subspace its feature vector belongs to~\cite{Tian:2016}.
+\end{itemize}
+
+A common criterion to assess prediction performance of classifiers rely on the use of the Balanced Accuracy \cite{Marsland:2014, Zhao:2013, kuhn:2013}. The Balanced Accuracy is calculated as:
+
+\begin{equation}
+    Balanced Accuracy = \frac{{\frac{TP}{TP+FN}}+{\frac{TN}{FP+TN}}}{2},
+\end{equation}
+
+\noindent where:
+
+\begin{itemize}
+    \item \textbf{True Positive (TP)}: number of instances that were correctly predicted by the classifier as positive.
+    \item \textbf{True Negative (TN)}: number of instances that were correctly predicted by the classifier as negative.
+    \item \textbf{False Positive (FP)}: number of instances that were incorrectly predicted by the classifier as positive.
+    \item \textbf{False Negative (FN)}: number of instances that were incorrectly predicted by the classifier as negative.
+\end{itemize}
+
+\subsubsection{Hyper-parameter Tuning}
+
+Adjusting the hyper-parameters is critical in Machine Learning. The goal is to identify parameter values that lead to the optimal model accuracy. Each classifier has its own set of hyper-parameters, and these values can significantly impact the classifier performance~\cite{Luo:2016}.
+
+Hyper-parameter tuning is an iterative activity that occurs during the training phase of an ML model building process. In typical protocols, researchers often employ three standard procedures~\cite{Probst:2018}: (i) following default values specified in software packages, (ii) manual configuration based on the literature, experience, or trial-and-error procedures, or (iii) configuring them for optimal predictive performance by using tuning approaches (e.g., grid search or random search). 
+After adjusting the hyper-parameters for selected classifier, researchers should train the model again until the predicting model achieves a satisfactory prediction accuracy. When this goal is reached, the predictive modeling process can be considered complete. 
+
+Table~\ref{chapter:4:tab:hyperparameters-descriptions} presents the hyper-parameters for each ML classifier used in our study.
+\textcolor{red}{give more details about hyperparameters selection}
+\begin{table}[ht!]
+    \centering
+	\caption{Description of the hyper-parameters for each ML classifier investigated.}
+	\begin{tabular}{@{}p{3cm}p{7.5cm}@{}}
+		\toprule
+		\textbf{ML Classifier} & \textbf{Hyper-parameters} \\
+		\midrule
+        KNN & {\bf k}: Number of neighbors \\
+        \midrule
+        Na\"ive Bayes & {\bf var\_smoothing}: Portion of the largest variance of all features that is added to variances for calculation stability.\\
+	    \midrule
+	    Neural Network & {\bf size}: Hidden units\newline
+	    {\bf activation}: Activation function for the hidden layer.\newline
+	    {\bf solver}: The solver for weight optimization.\newline
+	    {\bf alpha}: L2 penalty (regularization term) parameter.\\
+        \midrule
+        Random Forest & {\bf max\_features}: The number of features to consider when looking for the best split.\newline
+        {\bf n\_estimators}: The number of trees in the forest.\\
+	    \midrule
+	    SVM & {\bf C}: Regularization cost parameter\newline
+	    {\bf gamma}: Kernel coefficient for `rbf', `poly' and `sigmoid'.\newline
+	    {\bf kernel}: Specifies the kernel type to be used in the algorithm. \\
+		\bottomrule
+	\end{tabular}
+  	 \label{chapter:4:tab:hyperparameters-descriptions}
+\end{table}
+          
+
+\subsection{Bidirectional Encoder Representations from Transformers (BERT)}
+
+One of the most promising machine learning solution for text classification tasks rely on the use of deep neural networks, or simply, deep learning~\cite{Torfi:2021}. Bidirectional Encoder Representations from Transformers (BERT)~\cite{Devlin:2019} is a deep learning language model which has been successfully utilized in many NLP tasks, such as question answering and text classification~\cite{Devlin:2019,Torfi:2021, Landolt:2021}. Unlike other context-free models, which ignore the context and always give the same static embedding for the word, BERT is an  embedding model that is able to ``understand'' the context and then generate the dynamic embedding for the word on a given context~\cite{Ravichandiran:2021}. In the original paper~\cite{Devlin:2019}, the authors provided two BERT models as shown in Table~\ref{tab:bert-models}.
+
+\begin{table}[ht!]
+\centering
+\caption{BERT original models~\cite{Devlin:2019}.}
+\begin{tabular}{@{}lll@{}}
+\toprule
+                              & \textbf{BERT\textsubscript{BASE}} & \textbf{BERT\textsubscript{LARGE}} \\ \midrule
+\textbf{Layers}               & 12                 & 24                  \\
+\textbf{Hidden size}          & 768                & 1024                \\
+\textbf{Self-attention heads} & 12                 & 16                  \\
+\textbf{Total parameters}     & 110M               & 340M                \\ \bottomrule
+\end{tabular}%
+\label{tab:bert-models}
+\end{table}
+
+A sentence is considered any sequence of tokens in BERT. The BERT input can be a single sentence or a pair of sentences. The token embeddings are generated from a vocabulary built over WordPiece embeddings with 30.000 tokens. Figure~\ref{fig:bert-model-input-output} shows an example of token embeddings for the sentence ``The bug occurs when updating the pretraining mode version''\cite{Ravichandiran:2021}. As the WordPiece tokenizer did not recognize the ``pretraining'' word, it will be split into subwords (e.g., ``pre'', ``\#\#train", and ``\#\#ing'') until the tokenizer finds the subword or until it reaches individual characters, which is handled as the Out-of-Vocabulary (OOV) word.
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=\textwidth]{figures/bert-model-input-output.pdf}
+    \caption{BERT\textsubscript{BASE} input representation. Since the BERT\textsubscript{BASE} has 768 hidden units, each token
+    size representation will be 768 positions. Figure adapted from Ravichandiran et al.~\cite{Ravichandiran:2021}.}
+    \label{fig:bert-model-input-output}
+\end{figure}
+
+The \textsc{[CLS]} token is added at the beginning of the first sentence and used for classification tasks. It holds the aggregate representation of input sentence. The \textsc{[SEP]} token indicates the end of each sentence~\cite{Ravichandiran:2021}. Figure~\ref{fig:bert-three-embedding} shows the embedding generation process executed by the WordPiece tokenizer. First, the tokenizer converts input sentences into tokens before figuring out token embeddings. After that, these tokens feed segment and position embeddings computations. Lastly, the tokenizer sum all embeddings, and the results are inputted into BERT. The three kinds of  embeddings are described as following~\cite{Devlin:2019}:
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=\textwidth]{figures/bert-model-input-output-three-embeddings.pdf}
+    \caption{Input representation in BERT, adapted from Devlin et al.~\cite{Devlin:2019}. Input tokens are represented in red color. Token embeddings are represented in yellow color. Segment embeddings are represented in green color. Position embeddings are represented in gray color.}
+    \label{fig:bert-three-embedding}
+\end{figure}
+
+ \begin{itemize}
+    \item \textbf{Token embedding}: the word embedding represented by a vector of numbers.
+    \item \textbf{Segment embedding}: the fixed embedding that defines if a token belongs to the first or the second sentence, if this second sentence was inputted.
+    \item \textbf{Position embedding:} the position embedding for each token in a sentence. If there are two sentences, the position in second sentence continues from last position of the first sentence plus one.
+\end{itemize}
+
+\textcolor{red}{ISSUES: 2.5 - give more details about hyperparameters selection}
+The BERT model is pre-trained from two approaches: masked language modeling and next sentence prediction. In the first approach, 15\% of the word piece input tokens are randomly masked, and the network is trained to predict masked words. The model then reads the sentence in both directions to predict the masked words. In the second approach, BERT receives two sentences as input and has to
+predict whether the second one is the subsequent sentence to the first one.
+
+\subsection{Text Mining}
+
+Common ML classifiers cannot directly process unstructured text (e.g., bug reports' {\em summary} and {\em description} attributes). Therefore, unstructured text documents are often encoded into more suitable representations in a preprocessing task. Next, the converted content is represented by feature vectors (points of an n-dimensional space). Text mining is the process of transforming unstructured text to fit into the Machine Learning pipeline~\cite{Feldman:2006}. It is composed of three primary activities~\cite{Williams:2011}:
+
+\begin{itemize}
+  \item {\bf Tokenization} is the action of parsing a character stream into a sequence of tokens by splitting the stream at delimiters. A token is a block of text or a string of characters (without delimiters such as spaces and punctuation), a useful portion of the unstructured data. 
+  
+  \item {\bf Stop word removal} eliminates commonly used words that do not provide relevant information to a particular context, including prepositions, conjunctions, articles, verbs, nouns, pronouns, adverbs, and adjectives.
+  
+  \item {\bf Stemming} is the process of reducing or normalizing inflected (or sometimes derived) words into their word stem or base form (e.g., ``working” and ``worked" into ``work").
+\end{itemize}
+
+Two of the most traditional ways of representing a document rely on the use of a bag of words (unigrams) or a bag of bigrams (when two terms appear consecutively, one after the other)~\cite{Feldman:2006}. In this approach, all terms represent features, and thus the dimension of the feature space is equal to the number of different terms in all documents (in our context, bug reports).  
+ 
+\textcolor{red}{ISSUES: 2.6 - provide references about TF and TF-IDF and about sparse matrix}
+Methods for assigning weights to features may vary. Two common approaches are Term Frequency~(TF) and Term Frequency-Inverse Document Frequency~(TF-IDF). The former method considers the number of times in which the term appears in each document. The latter method is a more complex weighting scheme that takes into account the frequency of the term in each document and in the whole collection. The importance of a term in the TF-IDF scheme is proportional to its frequency in a document and inversely proportional to its frequency in the collection~\cite{srivastava:2009}.
+
+We highlight that all encoding methods mentioned above often produce sparse matrices in which most of the values are zero~\cite{Feldman:2006}. One can quantify the sparsity of a matrix by dividing the number of zeroes by the total number of elements in the matrix.
+
+
+
+
+
+
