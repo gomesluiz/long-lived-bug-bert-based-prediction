@@ -1,6 +1,7 @@
 \section{Results}\label{chapter:4:sec:results}
 
 \textcolor{red}{ISSUES: 1.4 - poor performance of the proposed approach; 2.15 - Organize text and figures; 2.16 - Merge results and discussions; 3.4 - Results are not convincing; 3.5 - It is not clear if the paper followed the traditional setup, or just trained on bug reports.}
+
 This section reports our experiments' results, and is organized according to our study's research question. 
 
 \subsection {RQ1.What is the comparative accuracy of ML classifiers when predicting long-lived bugs using BERT-based feature extraction?}\label{result:rq1}
@@ -134,7 +135,7 @@ Figure~\ref{fig:rq2-all-balanced-accuracies-bert-vs-tfidf} shows a comparison be
     \includegraphics[width=\textwidth]{figures/rq2-winehq-balanced-accuracy.pdf}
     \label{fig:rq2-winehq-balanced-accuracy} 
   \end{subfigure}
-  \caption{\textcolor{red}{2.14 - Why is it important to show this charts?}The performance for all classifiers over all datasets based on the balanced accuracy metric, for both BERT- and TF-IDF-based feature extraction. The solid yellow color highlights the best classifier when using the BERT-based feature extraction, while the yellow hashed color highlights the best classifier when using the TF-IDF-based feature extraction for each dataset in the testing step.}
+  \caption{\textcolor{red}{2.14 - Why is it important to show this charts?} The performance for all classifiers over all datasets based on the balanced accuracy metric, for both BERT- and TF-IDF-based feature extraction. The solid yellow color highlights the best classifier when using the BERT-based feature extraction, while the yellow hashed color highlights the best classifier when using the TF-IDF-based feature extraction for each dataset in the testing step.}
   \label{fig:rq2-all-balanced-accuracies-bert-vs-tfidf}
 \end{figure*}
 
@@ -147,144 +148,47 @@ Figure~\ref{fig:rq2-all-difference-bert-vs-tfidf} summarizes the accuracy perfor
      \caption{The performance difference between ML classifiers over investigated FLOSS when they used BERT- or TF-IDF-based feature extraction. }
      \label{fig:rq2-all-difference-bert-vs-tfidf}
  \end{figure}
-      
-\subsection {RQ3.What are the main characteristics of bugs correctly predicted as long-lived (True Positive) and incorrectly predicted as short-lived (False Negative) when using BERT- or TF-IDF-based feature extraction?}
-
-Even if our long-lived bug prediction models do not accurately predict many long-lived bugs, it could be handy to investigate the characteristics of those with high and low accuracies. We investigated both scenarios based on reporters, assignees, components, and severity levels bug reports' attributes from the Mozilla dataset, on which the best results for long-lived bug prediction were observed.
-
-\subsubsection{Reporter}
-Figure~\ref{fig:rq3-mozilla-all-top-reporter_name} shows that {\bf 7 out of 20} reporters yielded 60\% or more true positives for all bugs allocated for them in long-lived prediction using the BERT-based feature extraction. In comparison, {\bf 5 out of 20} reporters yielded 60\% or more true positives in the prediction task using the TF-IDF-based feature extraction. We can note there was a slight difference between these values. However, if we observe more carefully, we can realize the number of bug reports opened for those seven assignees in BERT was {\bf 68}, and for those five assignees in TF-IDF, it was {\bf 40}.  In both situations, considering all reporter's bugs reports, none of them reached 100\% of true positives in long-lived bug prediction. The highest true positive score was {\bf $\approx$ 83\%} for {\bf waterson}~(for BERT) and {\bf sspitzer}~(for TF-IDF).
-
-\begin{figure*}[!ht]
-  \begin{subfigure}{.50\linewidth}
+ 
+ 
+ \subsection{RQ3:}
+ 
+\begin{figure*}[t!]
+  \begin{subfigure}{.48\linewidth}
     \centering
-    \caption{BERT}
-    \includegraphics[width=\textwidth]{figures/rq3-mozilla-bert-top-reporter_name.pdf}
-    \label{fig:rq3-mozilla-bert-top-reporter_name}
+    \caption{Eclipse}
+    \includegraphics[width=\textwidth]{figures/rq3-bert-ft-vs-tfidf-eclipse.jpg}
+    \label{fig:rq3-bert-ft-vs-tfidf-eclipse}
   \end{subfigure}\hfill
-  \begin{subfigure}{.50\linewidth}
+  \begin{subfigure}{.48\linewidth}
     \centering
-    \caption{TF-IDF}
-    \includegraphics[width=\textwidth]{figures/rq3-mozilla-tfidf-top-reporter_name.pdf}
-    \label{fig:rq3-mozilla-tfidf-top-reporter_name}
+    \caption{Freedesktop}
+    \includegraphics[width=\textwidth]{figures/rq3-bert-ft-vs-tfidf-freedesktop.jpg}
+    \label{fig:rq3-bert-ft-vs-tfidf-freedesktop}
   \end{subfigure}\hfill
-  \caption{False Negatives/True Positives by reporter yielded on long-lived bug prediction model in testing step using the (a) BERT- or (b) TF-IDF-based feature extraction.}
-  \label{fig:rq3-mozilla-all-top-reporter_name}
-\end{figure*}
-
-\subsubsection{Assignee}
-Figure~\ref{fig:rq3-mozilla-all-top-assignee_name} shows that {\bf 8 out of 20} assignees yielded 60\% or more true positives for all bugs allocated for them in long-lived prediction using BERT-based feature extraction. In comparison, {\bf 4 out of 20} assignees yielded 60\% or more true positives in the prediction task using TF-IDF. If we observe more carefully, we can realize the number of bug reports allocated for that eight assignees in BERT was {\bf 214}, and for that four assignees in TF-IDF was {\bf 39}.  In both situations, considering all assignee's bugs reports, none of them reached 100\% of true positives in long-lived bug prediction. The highest true positives score was {\bf $\approx$ 88\%} for {\bf mscott's} (for BERT) and {\bf $\approx$ 80\%} for {\bf nelson's} bugs reports (for TF-IDF).
-
-\begin{figure*}[!t]
-  \begin{subfigure}{.50\linewidth}
+  \begin{subfigure}{.48\linewidth}
     \centering
-    \caption{BERT}
-    \includegraphics[width=\textwidth]{figures/rq3-mozilla-bert-top-assignee_name.pdf}
-    \label{fig:rq3-mozilla-bert-top-assignee_name}
+    \caption{Gcc}
+    \includegraphics[width=\textwidth]{figures/rq3-bert-ft-vs-tfidf-gcc.jpg}
+    \label{fig:rq3-bert-ft-vs-tfidf-gcc} 
   \end{subfigure}\hfill
-  \begin{subfigure}{.50\linewidth}
+  \begin{subfigure}{.48\linewidth}
     \centering
-    \caption{TF-IDF}
-    \includegraphics[width=\textwidth]{figures/rq3-mozilla-tfidf-top-assignee_name.pdf}
-    \label{fig:rq3-mozilla-tfidf-top-assignee_name}
+    \caption{Gnome}
+    \includegraphics[width=\textwidth]{figures/rq3-bert-ft-vs-tfidf-gnome.jpg}
+    \label{fig:rq3-bert-ft-vs-tfidf-gnome} 
   \end{subfigure}\hfill
-  \caption{False Negatives/True Positives by assignee yielded on long-lived bug prediction model in testing step using (a) BERT- or (b) TF-IDF-based feature extraction.}  
-  \label{fig:rq3-mozilla-all-top-assignee_name}
-\end{figure*}
-
-Figure~\ref{fig:rq3-mozilla-bert-tfidf-reporter_name-vs-assignee_name} draws the relationship between assignees and the best seven reporters in BERT (Figure~\ref{fig:rq3-mozilla-bert-reporter_name-vs-assignee_name}) and the best five reporters in TF-IDF (Figure~\ref{fig:rq3-mozilla-tfidf-reporter_name-vs-assignee_name}), both with true positive rates above 60\%.  We can observe that among assignees with the \textbf{eight} highest true positive rates in BERT, \textbf{four} are in charge of bugs reported by \textbf{bzbarsky}, which had the fourth true positive rate with this feature extractor (Figure~\ref{fig:rq3-mozilla-bert-reporter_name-vs-assignee_name}). Also, we can note the among assignee with the \textbf{four} highest true positive rates in TF-IDF, only one is in charge of bugs reported by \textbf{jruderman} and \textbf{roc}, which had respectively the second and the fourth true positive rates in TF-IDF. However, assignees were in charge of 8\% and 10\% of bug reports opened by  the best eight reporters in BERT and the best five reporters in TF-IDF (Figure~\ref{fig:rq3-mozilla-tfidf-reporter_name-vs-assignee_name}), respectively. Furthermore, it is worth to pay attention that a relevant number of bug reports were opened by own assignee, such as \textbf{LpSolit}, \textbf{bzbarsky}, \textbf{mkanat}, \textbf{mozilla}, and \textbf{timeless}.
-
-\begin{figure*}[!ht]
-  \begin{subfigure}{\linewidth}
+  \begin{subfigure}{.48\linewidth}
     \centering
-    \caption{BERT\textsubscript{BASE}}
-    \includegraphics[width=\textwidth]{figures/rq3-mozilla-bert-reporter_name-vs-assignee_name.pdf}
-    \label{fig:rq3-mozilla-bert-reporter_name-vs-assignee_name}
+    \caption{Mozilla}
+    \includegraphics[width=\textwidth]{figures/rq3-bert-ft-vs-tfidf-mozilla.jpg}
+    \label{fig:rq3-bert-ft-vs-tfidf-mozilla} 
   \end{subfigure}\hfill
-  \begin{subfigure}{\linewidth}
+  \begin{subfigure}{.48\linewidth}
     \centering
-    \caption{TF-IDF}
-    \includegraphics[width=\textwidth]{figures/rq3-mozilla-tfidf-reporter_name-vs-assignee_name.pdf}
-    \label{fig:rq3-mozilla-tfidf-reporter_name-vs-assignee_name}
-  \end{subfigure}\hfill
-  \caption{Relationship between highest assignees and bug reporters in (a) BERT and (b) TF-IDF. The yellow star symbol represents the best bug reporters, and the size of symbols represents the number of bug reports.}
-  \label{fig:rq3-mozilla-bert-tfidf-reporter_name-vs-assignee_name}
-\end{figure*}
-
-\subsubsection{Component}
-Figure~\ref{fig:rq3-mozilla-all-top-component_name} shows that {\bf 10 out of 20} components yielded 60\% or more true positives for all bugs reported for them in long-lived prediction using BERT-base feature extraction. In comparison, no components yielded 60\% or more true positives in the prediction task using TF-IDF. We can note there was a considerable difference between these values. In both situations, considering all components' bugs reports, none of them reached 100\% of true positives in long-lived bug prediction. When the long-lived bug prediction used BERT feature vectors, the highest true positives score was {\bf $\approx$ 91\%} on {\bf Disability Access APIs'} bugs reports. On the other hand, using TF-IDF feature vectors, the highest true positives score was {\bf $\approx$ 54\%} on {\bf JavaScript Engine's} bugs reports.
-
-\begin{figure*}[!ht]
-  \begin{subfigure}{.50\linewidth}
-    \centering
-    \caption{BERT}
-    \includegraphics[width=\textwidth]{figures/rq3-mozilla-bert-top-component_name.pdf}
-    \label{fig:rq3-mozilla-bert-top-component_name}
-  \end{subfigure}\hfill
-  \begin{subfigure}{.50\linewidth}
-    \centering
-    \caption{TF-IDF}
-    \includegraphics[width=\textwidth]{figures/rq3-mozilla-tfidf-top-component_name.pdf}
-    \label{fig:rq3-mozilla-tfidf-top-component_name}
-  \end{subfigure}\hfill
-  \caption{False Negatives/True Positives by component yielded on long-lived bug prediction model in testing step using (a) BERT- or (b) TF-IDF-based feature extraction.}
-  \label{fig:rq3-mozilla-all-top-component_name}
-\end{figure*}
-
-Figure~\ref{fig:rq3-mozilla-bert-tfidf-reporter_name-vs-component_name} draws the relationship between components and the best seven reporters in BERT (Figure~\ref{fig:rq3-mozilla-bert-reporter_name-vs-component_name}) and the best five reporters in TF-IDF (Figure~\ref{fig:rq3-mozilla-tfidf-reporter_name-vs-component_name}), both with true positive rates above 60\%.  We can observe that among components with the \textbf{ten} highest true positive rates in BERT, \textbf{five} are related to bugs reported by \textbf{waterson} and \textbf{bzbarsky}, which had the first and fourth true positive rate with this feature extractor (Figure~\ref{fig:rq3-mozilla-bert-reporter_name-vs-component_name}). Also, we can note the among components with the \textbf{three} highest true positive rates in TF-IDF, only one is related to bugs reported by \textbf{jruderman}, which had the best second true positive rates in TF-IDF. However, the highest components were related to only 4\% and 3\% of bug reports related to the best eight reporters in BERT and the best five reporters in TF-IDF (Figure~\ref{fig:rq3-mozilla-tfidf-reporter_name-vs-component_name}), respectively.
-
-\begin{figure*}[!ht]
-  \begin{subfigure}{\linewidth}
-    \centering
-    \caption{BERT}
-    \includegraphics[width=\textwidth]{figures/rq3-mozilla-bert-reporter_name-vs-component_name.pdf}
-    \label{fig:rq3-mozilla-bert-reporter_name-vs-component_name}
-  \end{subfigure}\hfill
-  \begin{subfigure}{\linewidth}
-    \centering
-    \caption{TF-IDF}
-    \includegraphics[width=\textwidth]{figures/rq3-mozilla-tfidf-reporter_name-vs-component_name.pdf}
-    \label{fig:rq3-mozilla-tfidf-reporter_name-vs-component_name}
-  \end{subfigure}\hfill
-  \caption{Relationship between highest components and bug reporters in (a) BERT and (b) TF-IDF. The yellow star symbol represents the best bug reporters, and the size of symbols represents the number of bug reports.}
-  \label{fig:rq3-mozilla-bert-tfidf-reporter_name-vs-component_name}
-\end{figure*}
-
-\subsubsection{Severity Level}
-Figure~\ref{fig:rq3-mozilla-all-top-severity_level.pdf} shows that {\bf half} of the severity levels yielded 60\% or more true positives for all bugs reported for them in long-lived prediction using BERT-based feature extraction. In comparison, no severity levels yielded 60\% or more true positives in the prediction task using TF-IDF. We can note there was a considerable difference between these values. In both situations, considering all components' bugs reports, none of them reached 100\% of true positives in long-lived bug prediction. When the long-lived bug prediction used BERT feature vectors, the highest true positive score was {\bf $\approx$ 71\%} on {\bf minor's} bugs reports. On the other hand, using TF-IDF feature vectors, the highest true positive score was {\bf $\approx$ 51\%} on {\bf critical's} bugs reports.
-
-\begin{figure*}[!ht]
-  \begin{subfigure}{.50\linewidth}
-    \centering
-    \caption{BERT}
-    \includegraphics[width=\textwidth]{figures/rq3-mozilla-bert-top-severity_category.pdf}
-    \label{fig:rq3-mozilla-bert-top-severity_level}
-  \end{subfigure}\hfill
-  \begin{subfigure}{.50\linewidth}
-    \centering
-    \caption{TF-IDF}
-    \includegraphics[width=\textwidth]{figures/rq3-mozilla-tfidf-top-severity_category.pdf}
-    \label{fig:rq3-mozilla-tfidf-top-severity_level}
-  \end{subfigure}\hfill
-  \caption{False Negatives/True Positives by severity level yielded on long-lived bug prediction model in testing step using (a) BERT- or (b) TF-IDF feature extraction.}
-  \label{fig:rq3-mozilla-all-top-severity_level.pdf}
-\end{figure*}
-
-Figure~\ref{fig:rq3-mozilla-bert-tfidf-reporter_name-vs-severity_category} draws the relationship between severity levels and the best eight reporters in BERT  (Figure~\ref{fig:rq3-mozilla-bert-reporter_name-vs-severity_category}) and the best five reporters in TF-IDF (Figure~\ref{fig:rq3-mozilla-tfidf-reporter_name-vs-severity_category}), both with true positive rates above 60\%.  We can observe that among severity levels with the \textbf{three} highest true positive rates in BERT, \textbf{all} are related to bugs reported by seven with highest true positive rate with this feature extractor (Figure~\ref{fig:rq3-mozilla-bert-reporter_name-vs-severity_category}). Also, we can note the severity level with the highest true positive rate in TF-IDF is related to bugs reported by \textbf{sspitzer} and \textbf{jruderman}, which had the best first and fourth true positive rates in TF-IDF respectively. However, the highest severity levels were related to 3\% and 0.5\% of bug reports related to  the best eight reporters in BERT and the best five reporters in TF-IDF (Figure~\ref{fig:rq3-mozilla-tfidf-reporter_name-vs-severity_category}), respectively.
-
-\begin{figure*}[!ht]
-  \begin{subfigure}{\linewidth}
-    \centering
-    \caption{BERT}
-    \includegraphics[width=\textwidth]{figures/rq3-mozilla-bert-reporter_name-vs-severity_category.pdf}
-    \label{fig:rq3-mozilla-bert-reporter_name-vs-severity_category}
-  \end{subfigure}\hfill
-  \begin{subfigure}{\linewidth}
-    \centering
-    \caption{TF-IDF}
-    \includegraphics[width=\textwidth]{figures/rq3-mozilla-tfidf-reporter_name-vs-severity_category.pdf}
-    \label{fig:rq3-mozilla-tfidf-reporter_name-vs-severity_category}
-  \end{subfigure}\hfill
-  \caption{Relationship between highest severity levels and bug reporters in (a) BERT and (b) TF-IDF. The yellow star symbol represents the best bug reporters, and the size of symbols represents the number of bug reports.}
-  \label{fig:rq3-mozilla-bert-tfidf-reporter_name-vs-severity_category}
+    \caption{WineHQ}
+    \includegraphics[width=\textwidth]{figures/rq3-bert-ft-vs-tfidf-winehq.jpg}
+    \label{fig:rq3-bert-ft-vs-tfidf-winehq} 
+  \end{subfigure}
+  \caption{Performance based on the balanced accuracy metric for all classifiers for all datasets. The solid yellow color highlights the best classifier when using the BERT-Based feature extraction for each dataset.}
+  \label{fig:rq1-all-balanced-accuracies-bert}
 \end{figure*}
