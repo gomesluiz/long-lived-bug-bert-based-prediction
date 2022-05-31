@@ -3,7 +3,6 @@ We provide in this section a set of fundamental concepts related to the main con
 
 \subsection{Bug Tracking Systems \& Bug Report}
 Bug Tracking System (BTS)~\cite{Lamkanfi:2010} is a system that allows users to open bug reports and tracks associated information. A bug report may refer to change requests, bug fixes, or technical support that could occur during the life cycle of any given software.  
-
 Typically, a bug report is a form that a user should fill out to communicate a bug to software maintainers. It contains information required to reproduce, diagnose, and fix a bug while reporting a bug. Figure~\ref{chapter:4:fig:exemplo-de-bug-report} illustrates a bug report from the WineHQ project containing data that describe the bug 4123. If we observe the {\it Status}, {\it Reported}, and {\it Modified} fields in this bug report, we can note that this bug is still with status equals to {\it New} even been reported in 2005-12-21. Yet, it seems that is an active bug because it was modified in 2020-06-23. There is no agreement on the terminology or on the amount of information that users and maintenance teams must provide to fill a bug report~\cite{Tian:2012}. They often describe their needs in popular BTS, providing at least information about the attributes shown in Table~\ref{chapter:4:tab:commom_attributes_bts_form}.  
 
 \begin{figure}[ht!]
@@ -152,7 +151,7 @@ A sentence is considered any sequence of tokens in BERT. The BERT input can be a
     \label{fig:bert-model-input-output}
 \end{figure}
 
-The \textsc{[CLS]} token is added at the beginning of the first sentence and used for classification tasks. It holds the aggregate representation of input sentence. The \textsc{[SEP]} token indicates the end of each sentence~\cite{Ravichandiran:2021}. Figure~\ref{fig:bert-three-embedding} shows the embedding generation process executed by the WordPiece tokenizer. First, the tokenizer converts input sentences into tokens before figuring out token embeddings. After that, these tokens feed segment and position embeddings computations. Lastly, the tokenizer sum all embeddings, and the results are inputted into BERT. The three kinds of  embeddings are described as following~\cite{Devlin:2019}:
+The \textsc{[CLS]} token is added at the beginning of the first sentence and used for classification tasks. It holds the aggregate representation of input sentence. The \textsc{[SEP]} token indicates the end of each sentence~\cite{Ravichandiran:2021}. Figure~\ref{fig:bert-three-embedding} shows the embedding generation process executed by the WordPiece tokenizer. First, the tokenizer converts input sentences into tokens before figuring out token embeddings. Thereafter, these tokens feed segment and position embeddings computations. Lastly, the tokenizer sum all embeddings, and the results are inputted into BERT. The three kinds of  embeddings are described as following~\cite{Devlin:2019}:
 
 \begin{figure}[ht!]
     \centering
@@ -171,6 +170,18 @@ The \textsc{[CLS]} token is added at the beginning of the first sentence and use
 The BERT model is pre-trained from two approaches: masked language modeling and next sentence prediction. In the first approach, 15\% of the word piece input tokens are randomly masked, and the network is trained to predict masked words. The model then reads the sentence in both directions to predict the masked words. In the second approach, BERT receives two sentences as input and has to
 predict whether the second one is the subsequent sentence to the first one.
 
+\subsubsection{BERT Variants}
+
+\begin{itemize}
+    \item Albert: Known as ‘A lite version of BERT’, ALBERT was proposed recently to enhance the training and results of BERT architecture by using parameter sharing and factorizing techniques. BERT model contains millions of parameters, BERT-based holds about 110 million parameters which makes it hard to train also too many parameters impact the computation. To overcome such challenges ALBERT was introduced as It has fewer parameters compared to BERT. 
+    
+    \item Distilbert: Known as the Distilled version of BERT, this is another compressed, smaller, faster, cheaper, and lighter variant. BERT has millions of parameters; due to its large size, it is challenging to apply it in a real-world task. With a complex layered architecture, these pre-trained models may achieve higher accuracy but the enormous number of parameters makes it expensive on resources especially when the model would be too heavy to use on mobile devices. Hence, a lighter, efficient and effective model is needed that can perform as powerful as BERT while reducing the size of a large model. Compared to BERT/RoBERTa/XLNet models, which provide results with improved performances, DistilBERT aims to reduce computation time. To compress the model size, DistilBERT applies the “teacher-student” framework also referred to as knowledge distillation where a larger model or the “teacher” network is trained and the knowledge is passed on to the smaller model also known as the “student” network. The research conducted by pioneers demonstrated “Distilling the knowledge in a Neural Network” in which a smaller language model is trained by removing the token-type embeddings while reducing the number of parameters, this largely impacted the computation efficiency
+    
+    \item RoBERTa: Known as a ‘Robustly Optimized BERT Pretraining Approach’ RoBERTa is a BERT variant developed to enhance the training phase, RoBERTa was developed by training the BERT model longer, on larger data of longer sequences and large mini-batches. The researchers of RoBERTa obtained substantially improved results with some modifications of BERT hyperparameters. Unlike BERT, RoBERTa uses the following techniques for its Robust training. 
+    
+    \item Known as ‘Efficiently Learning an Encoder that Classifies Token Replacement Accurately’ or ELECTRA, this variant of BERT applies a replace token detection technique (RTD) to improve results instead of using Masked language modeling (MLM) as in the original BERT. The MLM method in BERT replaces some tokens of the input with a [Mask] and then performs training on those to predict original content. In ELECTRA the tokens are replaced with alternative samples instead of masking the input. 
+\end{itemize}
+
 \subsection{Text Mining}
 
 Common ML classifiers cannot directly process unstructured text (e.g., bug reports' {\em summary} and {\em description} attributes). Therefore, unstructured text documents are often encoded into more suitable representations in a preprocessing task. Next, the converted content is represented by feature vectors (points of an n-dimensional space). Text mining is the process of transforming unstructured text to fit into the Machine Learning pipeline~\cite{Feldman:2006}. It is composed of three primary activities~\cite{Williams:2011}:
@@ -186,7 +197,7 @@ Common ML classifiers cannot directly process unstructured text (e.g., bug repor
 Two of the most traditional ways of representing a document rely on the use of a bag of words (unigrams) or a bag of bigrams (when two terms appear consecutively, one after the other)~\cite{Feldman:2006}. In this approach, all terms represent features, and thus the dimension of the feature space is equal to the number of different terms in all documents (in our context, bug reports).  
  
 \textcolor{red}{ISSUES: 2.6 - provide references about TF and TF-IDF and about sparse matrix}
-Methods for assigning weights to features may vary. Two common approaches are Term Frequency~(TF) and Term Frequency-Inverse Document Frequency~(TF-IDF). The former method considers the number of times in which the term appears in each document. The latter method is a more complex weighting scheme that takes into account the frequency of the term in each document and in the whole collection. The importance of a term in the TF-IDF scheme is proportional to its frequency in a document and inversely proportional to its frequency in the collection~\cite{srivastava:2009}.
+Methods for assigning weights to features may vary. Two common approaches are Term Frequency~(TF) and Term Frequency-Inverse Document Frequency~(TF-IDF). The former method considers the number of times in which the term appears in each document. The latter method is a more complex weighting scheme that considers the frequency of the term in each document and in the whole collection. The importance of a term in the TF-IDF scheme is proportional to its frequency in a document and inversely proportional to its frequency in the collection~\cite{srivastava:2009}.
 
 We highlight that all encoding methods mentioned above often produce sparse matrices in which most of the values are zero~\cite{Feldman:2006}. One can quantify the sparsity of a matrix by dividing the number of zeroes by the total number of elements in the matrix.
 

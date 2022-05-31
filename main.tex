@@ -19,30 +19,17 @@
 \usepackage{tablefootnote}
 \nobibliography*
 
-%\useunder{\uline}{\ul}{}
-% *** GRAPHICS RELATED PACKAGES ***
-%\ifCLASSINFOpdf
-%  \usepackage[pdftex]{graphicx}
-%  \graphicspath{{figures/}}
-%  \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
-%\else
-%  \usepackage[dvips]{graphicx}
-%  \graphicspath{{figures/}}
-%  \DeclareGraphicsExtensions{.eps}
-%\fi
-
 \newif\ifComments
 
 \Commentstrue
 
 \ifComments
-\newcommand{\todo}[1]{\noindent\textcolor{magenta}{{TODO: #1}}}
+\newcommand{\todo}[1]{\noindent\textcolor{red}{TODO: #1}}
+\newcommand{\doing}[1]{\noindent\textcolor{blue}{DOING: #1}}
+\newcommand{\done}[1]{\noindent\textcolor{green}{\sout{DONE: #1}}}
 \else
 \newcommand{\todo}[1]{}
 \fi
-
-%\newlength\fitlength
-%\setlength\fitlength{\dimexpr.5\columnwidth-2\tabcolsep-0.5\arrayrulewidth\relax}
 
 \begin{document}
     \begin{frontmatter}
