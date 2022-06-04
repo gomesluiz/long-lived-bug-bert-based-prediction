@@ -125,7 +125,7 @@ Table~\ref{chapter:4:tab:hyperparameters-descriptions} presents the hyper-parame
 
 \subsection{Bidirectional Encoder Representations from Transformers (BERT)}
 
-One of the most promising machine learning solution for text classification tasks rely on the use of deep neural networks, or simply, deep learning~\cite{Torfi:2021}. Bidirectional Encoder Representations from Transformers (BERT)~\cite{Devlin:2019} is a deep learning language model which has been successfully utilized in many NLP tasks, such as question answering and text classification~\cite{Devlin:2019,Torfi:2021, Landolt:2021}. Unlike other context-free models, which ignore the context and always give the same static embedding for the word, BERT is an  embedding model that is able to ``understand'' the context and then generate the dynamic embedding for the word on a given context~\cite{Ravichandiran:2021}. In the original paper~\cite{Devlin:2019}, the authors provided two BERT models as shown in Table~\ref{tab:bert-models}.
+Bidirectional Encoder Representations from Transformers (BERT)~\cite{Devlin:2019} is a deep learning language model which has been successfully utilized in many NLP tasks, such as question answering and text classification~\cite{Devlin:2019,Torfi:2021, Landolt:2021}. Unlike other context-free models, which ignore the context and always give the same static embedding for the word, BERT is an  embedding model that can ``understand'' the context and then generate the dynamic embedding for the word on a given context~\cite{Ravichandiran:2021}. In the original paper~\cite{Devlin:2019}, the authors provided two BERT models, as shown in Table~\ref{tab:bert-models}.
 
 \begin{table}[ht!]
 \centering
@@ -141,7 +141,7 @@ One of the most promising machine learning solution for text classification task
 \label{tab:bert-models}
 \end{table}
 
-A sentence is considered any sequence of tokens in BERT. The BERT input can be a single sentence or a pair of sentences. The token embeddings are generated from a vocabulary built over WordPiece embeddings with 30.000 tokens. Figure~\ref{fig:bert-model-input-output} shows an example of token embeddings for the sentence ``The bug occurs when updating the pretraining mode version''\cite{Ravichandiran:2021}. As the WordPiece tokenizer did not recognize the ``pretraining'' word, it will be split into subwords (e.g., ``pre'', ``\#\#train", and ``\#\#ing'') until the tokenizer finds the subword or until it reaches individual characters, which is handled as the Out-of-Vocabulary (OOV) word.
+BERT considers a sentence as any sequence of tokens and its input can be a single sentence or a pair of sentences. The token embeddings are generated from a vocabulary built over WordPiece embeddings with 30.000 tokens. Figure~\ref{fig:bert-model-input-output} shows an example of token embeddings for the sentence ``The bug occurs when updating the pretraining mode version''\cite{Ravichandiran:2021}. As the WordPiece tokenizer did not recognize the ``pretraining'' word, it will be split into subwords (e.g., ``pre'', ``\#\#train", and ``\#\#ing'') until the tokenizer finds the subword or until it reaches individual characters, which is handled as the Out-of-Vocabulary (OOV) word.
 
 \begin{figure}[ht!]
     \centering
@@ -151,7 +151,7 @@ A sentence is considered any sequence of tokens in BERT. The BERT input can be a
     \label{fig:bert-model-input-output}
 \end{figure}
 
-The \textsc{[CLS]} token is added at the beginning of the first sentence and used for classification tasks. It holds the aggregate representation of input sentence. The \textsc{[SEP]} token indicates the end of each sentence~\cite{Ravichandiran:2021}. Figure~\ref{fig:bert-three-embedding} shows the embedding generation process executed by the WordPiece tokenizer. First, the tokenizer converts input sentences into tokens before figuring out token embeddings. Thereafter, these tokens feed segment and position embeddings computations. Lastly, the tokenizer sum all embeddings, and the results are inputted into BERT. The three kinds of  embeddings are described as following~\cite{Devlin:2019}:
+BERT adds the \textsc{[CLS]} token at the beginning of the first sentence and used for classification tasks. This token holds the aggregate representation of the input sentence. The \textsc{[SEP]} token indicates the end of each sentence~\cite{Ravichandiran:2021}. Figure~\ref{fig:bert-three-embedding} shows the embedding generation process executed by the WordPiece tokenizer. First, the tokenizer converts input sentences into tokens before figuring out token embeddings. Thereafter, these tokens feed segment and position embeddings computations. Lastly, the tokenizer sum all embeddings and inputs the results into BERT. Figure~\ref{fig:bert-three-embedding} described three kinds of embeddings~\cite{Devlin:2019}.
 
 \begin{figure}[ht!]
     \centering
@@ -171,16 +171,26 @@ The BERT model is pre-trained from two approaches: masked language modeling and 
 predict whether the second one is the subsequent sentence to the first one.
 
 \subsubsection{BERT Variants}
+BERT has many variant models to be more efficient or be more adapted to several contexts.
 
-\begin{itemize}
-    \item Albert: Known as ‘A lite version of BERT’, ALBERT was proposed recently to enhance the training and results of BERT architecture by using parameter sharing and factorizing techniques. BERT model contains millions of parameters, BERT-based holds about 110 million parameters which makes it hard to train also too many parameters impact the computation. To overcome such challenges ALBERT was introduced as It has fewer parameters compared to BERT. 
-    
-    \item Distilbert: Known as the Distilled version of BERT, this is another compressed, smaller, faster, cheaper, and lighter variant. BERT has millions of parameters; due to its large size, it is challenging to apply it in a real-world task. With a complex layered architecture, these pre-trained models may achieve higher accuracy but the enormous number of parameters makes it expensive on resources especially when the model would be too heavy to use on mobile devices. Hence, a lighter, efficient and effective model is needed that can perform as powerful as BERT while reducing the size of a large model. Compared to BERT/RoBERTa/XLNet models, which provide results with improved performances, DistilBERT aims to reduce computation time. To compress the model size, DistilBERT applies the “teacher-student” framework also referred to as knowledge distillation where a larger model or the “teacher” network is trained and the knowledge is passed on to the smaller model also known as the “student” network. The research conducted by pioneers demonstrated “Distilling the knowledge in a Neural Network” in which a smaller language model is trained by removing the token-type embeddings while reducing the number of parameters, this largely impacted the computation efficiency
-    
-    \item RoBERTa: Known as a ‘Robustly Optimized BERT Pretraining Approach’ RoBERTa is a BERT variant developed to enhance the training phase, RoBERTa was developed by training the BERT model longer, on larger data of longer sequences and large mini-batches. The researchers of RoBERTa obtained substantially improved results with some modifications of BERT hyperparameters. Unlike BERT, RoBERTa uses the following techniques for its Robust training. 
-    
-    \item Known as ‘Efficiently Learning an Encoder that Classifies Token Replacement Accurately’ or ELECTRA, this variant of BERT applies a replace token detection technique (RTD) to improve results instead of using Masked language modeling (MLM) as in the original BERT. The MLM method in BERT replaces some tokens of the input with a [Mask] and then performs training on those to predict original content. In ELECTRA the tokens are replaced with alternative samples instead of masking the input. 
-\end{itemize}
+\begin{table}[!ht]
+\begin{tabular}{@{}lllll@{}}
+\toprule
+Model     &  L & H & A \\ \midrule
+\textbf{ALBERT\textsubscript{BASE}}         &   &   &   \\
+\textbf{BERT\textsubscript{SMALL-M1}}       &   &   &   \\
+\textbf{BERT\textsubscript{SMALL-M2}}       &   &   &   \\
+\textbf{BERT\textsubscript{SMALL-M3}}       &   &   &   \\
+\textbf{BERT\textsubscript{SMALL-M4}}       &   &   &   \\
+\textbf{BERT\textsubscript{BASE}}           &   &   &   \\
+\textbf{DISTILBERT}                         &   &   &   \\
+\textbf{ELECTRA\textsubscript{BASE}}        &   &   &   \\ 
+\textbf{ELECTRA\textsubscript{SMALL}}       &   &   &   \\ 
+\textbf{ROBERTA\textsubscript{BASE}}        &   &   &   \\ 
+\bottomrule
+\end{tabular}
+\end{table}
+
 
 \subsection{Text Mining}
 

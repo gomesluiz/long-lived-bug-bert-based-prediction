@@ -13,30 +13,24 @@ Machine Learning~(ML) and Text Mining~(TM) techniques have solved many real-worl
 \done{ISSUES: 2.2, 2.3: cite other papers that investigate long-lived bugs and better motivate our research}
 There are broad research efforts toward the use of BERT and the effect of its contextual embedding in Software Engineering tasks~\cite{csuvik:2020, feng:2020, guo:2020, kanade:2020, wang:2020, akimova:2021, allamanis:2021, dearaujo:2021, jinfeng:2021, wang:2021, zou:2021}. Even so, to the best of our knowledge, few studies applied it in long-lived bug prediction task~\cite{ardimento:2020}. Ardimento et al.~\cite{ardimento:2020}, for instance, yielded relevant results in their experiment using fine-tuning in this prediction task. However, they carried out their investigation on only one dataset extracted from LiveCode BTS with a relatively small number of bug reports.  Still, performed experiments described in their paper were not deeply investigated. 
 
-In this paper, we investigate both using of BERT-based feature extractor and fine-tuning BERT approach for long-lived bug prediction. Furthermore, we compared the accuracy performance of model predictors on six popular FLOSS projects, using feature extraction, fine-tuning based on BERT or TF-IDF. 
+In this paper, we investigated both using of BERT-based feature extractor and fine-tuning approach for long-lived bug prediction. Furthermore, we compared the accuracy of them with the traditional TF-IDF on six popular FLOSS projects. In this context, we aims to evaluate the long-lived prediction accuracy of five well-known machine learning classifiers when using BERT and TF-IDF as feature extractor or BERT fine-tuning.
 
-\begin{quote}
-  {\it Evaluate the long-lived prediction accuracy of five well-known machine learning classifiers when using BERT and TF-IDF as feature extractor or BERT fine-tuning}
-\end{quote}
-
-This specific goal leads to the definition of the following Research Questions (RQs) addressed in our study:
-
-\begin{enumerate}[label=\textbf{RQ$_{\arabic*}$}.]\addtocounter{enumi}{0}
-
-    \item {\it What is the comparative accuracy of ML classifiers when predicting long-lived bugs using BERT-based feature extraction?}~We aim to compare the accuracy of long-lived bug prediction systems based on different classifiers when BERT features are used. Answering this research question is essential for understanding the impact of contextual embedding features provided by BERT on the accuracy of traditional ML classifiers.
-    
-    \item {\it What is the comparative accuracy of ML classifiers when predicting long-lived bugs using BERT-based feature extraction or TF-IDF-based feature extraction?}~We aim to compare the accuracy of long-lived bug prediction systems when different feature extractors, based on BERT and TF-IDF, are employed. Answering this research question provides insights related to the choice of suitable features for automating the prediction of long-lived bugs with high accuracy.
-    
-    \item {\it  What is the comparative accuracy BERT fine-tuning approach and ML algorithms using TF-IDF when predicting long-lived bugs TF-IDF-based feature extraction?}. \todo{We aim to compare the accuracy of long-lived bug prediction systems when different feature extractors, based on BERT and TF-IDF, are employed. Answering this research question provides insights related to the choice of suitable features for automating the prediction of long-lived bugs with high accuracy}
-  
+\vspace{0.15cm}
+This specific goal leads to the definition of the following Research Questions~(RQs) addressed in our study:
+\vspace{0.15cm}
+\begin{enumerate}
+    \item What is the comparative accuracy of ML classifiers when predicting long-lived bugs using BERT-based feature extraction?
+    \item What is the comparative accuracy of ML classifiers when predicting long-lived bugs using BERT-based feature extraction or TF-IDF-based feature extraction?
+    \item What is the comparative accuracy BERT fine-tuning approach and ML algorithms using TF-IDF when predicting long-lived bugs TF-IDF-based feature extraction?
 \end{enumerate}
 
-\todo{ISSUES: 1.1 - lacking of novelty compared to previous work; 3.2 - The paper's formulation of the classification problem is merely an application of text classification to bug reports.}
+\vspace{0.15cm}
 The contributions of this paper can be summarized as follows:
+\vspace{0.15cm}
 \begin{itemize}
   \item A quantitative assessment of the performance of traditional ML classifiers using features extracted with BERT for the long-lived bug prediction;
   \item A quantitative performance comparison between BERT and TF-IDF for extracting features on the long-lived prediction task; and
-  \item Discussion upon qualitative characteristics associated with bugs correctly and incorrectly classified as long-lived.
+  \item A quantitative performance comparison between BERT using fine-tuning approach and TF-IDF for extracting features on the long-lived prediction task.
 \end{itemize}
 
 We organized the paper as follows.  
