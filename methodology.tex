@@ -4,7 +4,7 @@ Figure \ref{fig:machine-learning-methodology} presents the methodology used in o
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=\textwidth]{figures/machine-learning-workflow-machine-learning-methodology.pdf}
+    \includegraphics[width=\textwidth]{figures/machine-learning-pipeline.pdf}
     \caption{Steps of experiments methodology based on machine learning pipeline.}
     \label{fig:machine-learning-methodology}
 \end{figure}
@@ -32,7 +32,7 @@ First, we downloaded bug reports from Bugzilla repositories of six FLOSS project
   \end{tabular}
 \end{table}
 
-\subsection{Data preprocessing }
+\subsection{Data preprocessing}
 Raw data collected from FLOSS' Bugzilla BTS were not suitable for training and testing steps in ML pipeline~\cite{DeJonge:2013}. The recommended approach to convert the raw data to an appropriate format is to run procedures to extract, organize, and structure relevant features to address the proposed research questions. To accomplish this, we wrote specific codes to perform the following data preprocessing tasks:  
 
 \begin{itemize}
@@ -116,6 +116,6 @@ Finally, we performed the Wilcoxon signed-rank statistical test~\cite{Wilcoxon:1
     \label{fig:fig:repeated-cross-validation-2}
 \end{figure}
 
-\subsection{Testing Model}
+\subsection{Model Testing}
 In the testing phase, each of the best long-lived prediction model was validated with 25\% of each bug report testing dataset to measure its balanced accuracy in an unknown dataset. Furthermore, we ran this step for either BERT or TF-IDF feature vectors, separately.
 
