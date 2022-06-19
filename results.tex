@@ -1,8 +1,6 @@
 \section{Results}\label{chapter:4:sec:results}
 
-\textcolor{red}{ISSUES: 1.4 - poor performance of the proposed approach; 2.15 - Organize text and figures; 2.16 - Merge results and discussions; 3.4 - Results are not convincing; 3.5 - It is not clear if the paper followed the traditional setup, or just trained on bug reports.}
-
-This section reports our experiments' results, and is organized according to our study's research question. 
+This section reports our experiments' results, and is organized according to the raised research questions (Section~\ref{chapter:4:sec:introduction}). 
 
 \subsection {RQ1.What is the comparative accuracy of ML classifiers when predicting long-lived bugs using BERT-based feature extraction?}\label{result:rq1}
 
@@ -135,60 +133,61 @@ Figure~\ref{fig:rq2-all-balanced-accuracies-bert-vs-tfidf} shows a comparison be
     \includegraphics[width=\textwidth]{figures/rq2-winehq-balanced-accuracy.pdf}
     \label{fig:rq2-winehq-balanced-accuracy} 
   \end{subfigure}
-  \caption{\textcolor{red}{2.14 - Why is it important to show this charts?} The performance for all classifiers over all datasets based on the balanced accuracy metric, for both BERT- and TF-IDF-based feature extraction. The solid yellow color highlights the best classifier when using the BERT-based feature extraction, while the yellow hashed color highlights the best classifier when using the TF-IDF-based feature extraction for each dataset in the testing step.}
+  \caption{The performance for all classifiers over all datasets based on the balanced accuracy metric, for both BERT- and TF-IDF-based feature extraction. The solid yellow color highlights the best classifier when using the BERT-based feature extraction, while the yellow hashed color highlights the best classifier when using the TF-IDF-based feature extraction for each dataset in the testing step.}
   \label{fig:rq2-all-balanced-accuracies-bert-vs-tfidf}
 \end{figure*}
 
-\textcolor{red}{ISSUES: 1.8 - provide statistical significance tests}
 Figure~\ref{fig:rq2-all-difference-bert-vs-tfidf} summarizes the accuracy performance difference between ML classifiers using feature extraction based on BERT  and TF-IDF for all project datasets. The highest difference in favor of BERT was observed for Mozilla and the lowest, for Gnome.
  
  \begin{figure}[ht!]
      \centering
      \includegraphics[width=.70\textwidth]{figures/rq2-all-difference-bert-vs-tfidf.pdf}
-     \caption{The performance difference between ML classifiers over investigated FLOSS when they used BERT- or TF-IDF-based feature extraction. }
+     \caption{The performance difference between ML classifiers over investigated FLOSS when they used BERT- or TF-IDF-based feature extraction.}
      \label{fig:rq2-all-difference-bert-vs-tfidf}
  \end{figure}
  
  
- \subsection{RQ3:}
+\subsection{RQ3:}
+Figure~\ref{fig:rq3-bert-ft-vs-tfidf} compares the balanced accuracy performance of the BERT variant's on the long-lived prediction task. We can note that the long-lived bug prediction’s general performance using BERT variants in fine-tuning mode was systematically better than TF-IDF. The best performance by dataset was yielded by BERT$_{TINY}$ in Eclipse~(56.8\%), ELECTRA$_{BASE}$ in Freedesktop~(57.6\%), BERT$_{TINY}$ in GCC~(57.0\%), DISTILBERT in Gnome~(57.1\%), BERT$_{MINI}$ in Mozilla~(59.8\%), and BERT$_{SMALL}$ in WineHQ~(59.8\%). BERT variants had a performance worse than TF-IDF in four datasets: ALBERT$_BASE$ in Eclipse~(51.6\%) and GCC~(50.0\%), BERT$_{BASE}$ in Gnome~(54.9\%), and BERT$_{MEDIUM}$ in WineHQ~(53.7\%). Furthermore, the BERT variants with fine-tuning overcame the BERT$_{BASE}$ as feature extractor in 3 of 6 datasets: BERT$_{TINY}$ in GCC~(+0.7\%), DISTILBERT in GNOME~(+0.5\%), and BERT$_{SMALL}$ in WineHQ~(+3.2\%). Finally, we can observe that smaller BERT variants overcame the larger BERT variants in 5 of 6 datasets.
  
 \begin{figure*}[t!]
   \begin{subfigure}{.48\linewidth}
     \centering
     \caption{Eclipse}
-    \includegraphics[width=\textwidth]{figures/rq3-bert-ft-vs-tfidf-eclipse.jpg}
+    \includegraphics[width=\textwidth]{figures/Eclipse_FT_IDF_Metrics.jpg}
     \label{fig:rq3-bert-ft-vs-tfidf-eclipse}
   \end{subfigure}\hfill
   \begin{subfigure}{.48\linewidth}
     \centering
     \caption{Freedesktop}
-    \includegraphics[width=\textwidth]{figures/rq3-bert-ft-vs-tfidf-freedesktop.jpg}
+    \includegraphics[width=\textwidth]{figures/Freedesktop_FT_IDF_Metrics.jpg}
     \label{fig:rq3-bert-ft-vs-tfidf-freedesktop}
   \end{subfigure}\hfill
   \begin{subfigure}{.48\linewidth}
     \centering
     \caption{Gcc}
-    \includegraphics[width=\textwidth]{figures/rq3-bert-ft-vs-tfidf-gcc.jpg}
+    \includegraphics[width=\textwidth]{figures/GCC_FT_IDF_Metrics.jpg}
     \label{fig:rq3-bert-ft-vs-tfidf-gcc} 
   \end{subfigure}\hfill
   \begin{subfigure}{.48\linewidth}
     \centering
     \caption{Gnome}
-    \includegraphics[width=\textwidth]{figures/rq3-bert-ft-vs-tfidf-gnome.jpg}
+    \includegraphics[width=\textwidth]{figures/Gnome_FT_IDF_Metrics.jpg}
     \label{fig:rq3-bert-ft-vs-tfidf-gnome} 
   \end{subfigure}\hfill
   \begin{subfigure}{.48\linewidth}
     \centering
     \caption{Mozilla}
-    \includegraphics[width=\textwidth]{figures/rq3-bert-ft-vs-tfidf-mozilla.jpg}
+    \includegraphics[width=\textwidth]{figures/Mozilla_FT_IDF_Metrics.jpg}
     \label{fig:rq3-bert-ft-vs-tfidf-mozilla} 
   \end{subfigure}\hfill
   \begin{subfigure}{.48\linewidth}
     \centering
     \caption{WineHQ}
-    \includegraphics[width=\textwidth]{figures/rq3-bert-ft-vs-tfidf-winehq.jpg}
+    \includegraphics[width=\textwidth]{figures/WineHQ_FT_IDF_Metrics.jpg}
     \label{fig:rq3-bert-ft-vs-tfidf-winehq} 
   \end{subfigure}
-  \caption{Performance based on the balanced accuracy metric for all classifiers for all datasets. The solid yellow color highlights the best classifier when using the BERT-Based feature extraction for each dataset.}
-  \label{fig:rq1-all-balanced-accuracies-bert}
+  \caption{The balanced accuracy performance for classifiers based on BERT variants to all datasets. The 
+  red line indicates the best ML algorithm in performance using TD-IDF as feature extraction, and the blue line indicates the best ML algorithm in performance using BERT_{BASE}.}
+  \label{fig:rq3-bert-ft-vs-tfidf}
 \end{figure*}

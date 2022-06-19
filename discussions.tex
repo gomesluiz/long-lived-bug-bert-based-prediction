@@ -1,29 +1,14 @@
 \section{Discussions}\label{chapter:4:sec:discussions}
 
-\textcolor{red}{ISSUES: 2.19 - what the impact of this findings?}
-
 This section discusses the significance of our findings and it is divided by research question, as the Results section.
 
 \subsection {RQ1.What is the comparative accuracy of ML classifiers when predicting long-lived bugs using BERT-based feature extraction?}
 
-The results from our experiment to answer the first proposed research question indicate that BERT-based feature extraction leads to a good performance in the long-lived bug prediction problem. Most of the experimental predicting models outperformed reasonably \textcolor{red}{2.17 - give more details about random prediction}
-the random prediction, which is 50\% of the probability of predicting a long-lived bug (Figure~\ref{fig:rq1-all-balanced-accuracies-bert}). The SVM and Random Forest models seem to have drawn a more precise decision boundary based on BERT contextual sentence embedding in the testing phase. Thus, they could separate short-lived bugs from long-lived bugs more accurately than other classifiers. Furthermore, using a pre-trained network minimized the side effects of dataset size in the prediction performance. Our datasets are relatively small and of different sizes. Even so, the best performance score in each dataset was similar. This performance accuracy can be considered very good for an initial experiment where we used the basic BERT architecture and fed the feature extractor with only 128 headed tokens from only one bug report attribute.
+The results from our experiment to answer the first proposed research question indicate that BERT-based feature extraction leads to a good performance in the long-lived bug prediction problem. Most of the experimental predicting models outperformed reasonably the random prediction, which is 50\% of the probability of predicting a long-lived bug (Figure~\ref{fig:rq1-all-balanced-accuracies-bert}). The SVM and Random Forest models seem to have drawn a more precise decision boundary based on BERT contextual sentence embedding in the testing phase. Thus, they could separate short-lived bugs from long-lived bugs more accurately than other classifiers. Furthermore, using a pre-trained network minimized the side effects of dataset size in the prediction performance. Our datasets are relatively small and of different sizes. Even so, the best performance score in each dataset was similar. This performance accuracy can be considered very good for an initial experiment where we used the basic BERT architecture and fed the feature extractor with only 128 headed tokens from only one bug report attribute.
 
 \subsection {RQ2.What is the comparative accuracy of ML classifiers when predicting long-lived bugs using BERT-based feature extraction or TF-IDF-based feature extraction?}
 
 Our results demonstrated that BERT-based feature extraction is better than TF-IDF-based for long-live bug prediction tasks in investigated FLOSS projects. The first extraction method was systematically better than the second in most datasets for most ML classifiers. It seems that contextual embedding and dense representation may have a superior generalization capability that can capture similarities among bugs of the same class (short- or long-live bug). These results confirm the strength of the contextual embedding and denser feature vector over the traditional bag-of-word strategy~\cite{Gonzalez:2020}.
 
-\subsection {RQ3.What are the main characteristics of bugs correctly predicted as long-lived (True Positive) and incorrectly predicted as short-lived (False Negative) when using BERT- or TF-IDF-based feature extraction?}
-
-% reporter
-The accuracy performance from the bug reporter's perspective varied fairly among reporters, analyzing each feature extracting strategy separately or comparing strategies investigated. This may suggest that \textcolor{red}{2.18 What exactly means "writing style"}
-the writing style of each bug reporter seems to impact the classifiers' performance differently, depending on input features; if based on BERT or TF-IDF. Bug reports from the best reporters for BERT were those associated with the worst reporters for the TF-IDF feature extractor.
-
-% assignee 
-The assignee does not affect the writing style of the bug report description. On the other hand, the assignee is directly related to the time to fix the bug. In this sense, the feature vectors related to the assignee with better performances represent patterns in the description that are strongly related to the specific set of bug fixing times. There was no substantial evidence that one specific writing style from a bug reporter or a small set of them be related to these patterns in our experiments.
-
-%% component
-The performance of ML classifiers from the component could be influenced by the reporters' writing style that should explicitly describe the complexity of a bug in that component. However, the number of components associated with the best bug reporters in BERT or TF-IDF was minimal. Thus, there is no clear evidence to relate a writing style from the best bug reporters with a better bug report description regarding a component.
-
-% severity level.
-To be more valuable to the maintenance team, we would expect the predictor accuracy to be more efficient according to the severity level. Accuracy should increase with increasing severity. At this point, the two extractors differed somewhat. BERT performed better for minor and major, and TF-IDF performed better for critical and major. Also, there is no clear evidence of the impact of the best bug reporters' writing style in this results.
+\subsection {RQ3.?}
+\done{Finally, our results shown that BERT variants with smaller architectures~(BERT$_{TINY}$, BERT$_{SMALL}$, BERT$_{MEDIUM}$, and DISTILBERT) had a performance in most cases superior to BERT variants with larger architectures (BERT$_{BERT}$, ALBERT$_{BERT}$, and ELECTRA$_{BERT}$). These results may be explained by the lesser overfitting in smaller than larger deep neural networks. As well as, both feature-extraction and fine-tuning BERT-based classifiers in most cases overcame classifiers-based on TF-IDF features, which reaffirms the strength of the contextual embedding and denser feature vector over the traditional bag-of-word strategy~\cite{Gonzalez:2020}.}

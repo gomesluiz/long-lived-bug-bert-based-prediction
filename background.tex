@@ -8,7 +8,7 @@ Typically, a bug report is a form that a user should fill out to communicate a b
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=.85\columnwidth]{figures/exemplo-bug-report-winehq.png}
-    \caption{A bug report example from WineHQ~(\url{https://bugs.winehq.org/show_bug.cgi?id=4123)}, as of March 2021.}
+    \caption{A bug report example from WineHQ~(\url{https://bugs.winehq.org/show_bug.cgi?id=4123)}, as of June 2022.}
     \label{chapter:4:fig:exemplo-de-bug-report}
 \end{figure}
 
@@ -62,7 +62,7 @@ An ML algorithm works over a dataset, which contains many samples $x_{i}$, where
 \begin{itemize}
   \item {\bf k-Nearest Neighbors~(KNN)} classifies a new sample based on the geometric distance to the k-nearest labeled neighbors. The KNN commonly quantifies the proximity among neighbors using Euclidean distance. Each instance in a dataset represents a point in an n-dimensional space in order to calculate this distance.
   
-  \item {\bf Na\"ive Bayes~(NB)} decides to which class an instance belongs based on the Bayesian theorem of conditional probability. The probabilities of an instance belonging to each of the $C_{k}$ classes given the instance $x$ is $P(C_{k}|x )$. Na\"ive Bayes classifiers assume that, given the class variable, the value of a particular feature is independent of the value of any other feature.
+  \item {\bf Naive Bayes~(NB)} decides to which class an instance belongs based on the Bayesian theorem of conditional probability. The probabilities of an instance belonging to each of the $C_{k}$ classes given the instance $x$ is $P(C_{k}\vert x)$. Naive Bayes classifiers assume that, given the class variable, the value of a particular feature is independent of the value of any other feature.
   
   \item {\bf Neural Network (NN)} is a classifier that is inspired by the structure and functional aspects of biological neural networks~\cite{Haykin:1998}. It is structured as a network of units called neurons, with weighted, directed connections. Neural network models have been demonstrated to be capable of achieving remarkable performance in document classification~\cite{Zhou:2012}.
   
@@ -86,111 +86,12 @@ A common criterion to assess prediction performance of classifiers rely on the u
     \item \textbf{False Negative (FN)}: number of instances that were incorrectly predicted by the classifier as negative.
 \end{itemize}
 
-\subsubsection{Hyper-parameter Tuning}
+\subsubsection{Hyperparameter Tuning}
 
-Adjusting the hyper-parameters is critical in Machine Learning. The goal is to identify parameter values that lead to the optimal model accuracy. Each classifier has its own set of hyper-parameters, and these values can significantly impact the classifier performance~\cite{Luo:2016}.
+Adjusting the hyperparameters is critical in Machine Learning. The goal is to identify parameter values that lead to the optimal model accuracy. Each classifier has its own set of hyperparameters, and these values can significantly impact the classifier performance~\cite{Luo:2016}.
 
-Hyper-parameter tuning is an iterative activity that occurs during the training phase of an ML model building process. In typical protocols, researchers often employ three standard procedures~\cite{Probst:2018}: (i) following default values specified in software packages, (ii) manual configuration based on the literature, experience, or trial-and-error procedures, or (iii) configuring them for optimal predictive performance by using tuning approaches (e.g., grid search or random search). 
+Hyperparameter tuning is an iterative activity that occurs during the training phase of an ML model building process. In typical protocols, researchers often employ three standard procedures~\cite{Probst:2018}: (i) following default values specified in software packages, (ii) manual configuration based on the literature, experience, or trial-and-error procedures, or (iii) configuring them for optimal predictive performance by using tuning approaches (e.g., grid search or random search). 
 After adjusting the hyper-parameters for selected classifier, researchers should train the model again until the predicting model achieves a satisfactory prediction accuracy. When this goal is reached, the predictive modeling process can be considered complete. 
-
-Table~\ref{chapter:4:tab:hyperparameters-descriptions} presents the hyper-parameters for each ML classifier used in our study.
-\textcolor{red}{give more details about hyperparameters selection}
-\begin{table}[ht!]
-    \centering
-	\caption{Description of the hyper-parameters for each ML classifier investigated.}
-	\begin{tabular}{@{}p{3cm}p{7.5cm}@{}}
-		\toprule
-		\textbf{ML Classifier} & \textbf{Hyper-parameters} \\
-		\midrule
-        KNN & {\bf k}: Number of neighbors \\
-        \midrule
-        Na\"ive Bayes & {\bf var\_smoothing}: Portion of the largest variance of all features that is added to variances for calculation stability.\\
-	    \midrule
-	    Neural Network & {\bf size}: Hidden units\newline
-	    {\bf activation}: Activation function for the hidden layer.\newline
-	    {\bf solver}: The solver for weight optimization.\newline
-	    {\bf alpha}: L2 penalty (regularization term) parameter.\\
-        \midrule
-        Random Forest & {\bf max\_features}: The number of features to consider when looking for the best split.\newline
-        {\bf n\_estimators}: The number of trees in the forest.\\
-	    \midrule
-	    SVM & {\bf C}: Regularization cost parameter\newline
-	    {\bf gamma}: Kernel coefficient for `rbf', `poly' and `sigmoid'.\newline
-	    {\bf kernel}: Specifies the kernel type to be used in the algorithm. \\
-		\bottomrule
-	\end{tabular}
-  	 \label{chapter:4:tab:hyperparameters-descriptions}
-\end{table}
-          
-
-\subsection{Bidirectional Encoder Representations from Transformers (BERT)}
-
-Bidirectional Encoder Representations from Transformers (BERT)~\cite{Devlin:2019} is a deep learning language model which has been successfully utilized in many NLP tasks, such as question answering and text classification~\cite{Devlin:2019,Torfi:2021, Landolt:2021}. Unlike other context-free models, which ignore the context and always give the same static embedding for the word, BERT is an  embedding model that can ``understand'' the context and then generate the dynamic embedding for the word on a given context~\cite{Ravichandiran:2021}. In the original paper~\cite{Devlin:2019}, the authors provided two BERT models, as shown in Table~\ref{tab:bert-models}.
-
-\begin{table}[ht!]
-\centering
-\caption{BERT original models~\cite{Devlin:2019}.}
-\begin{tabular}{@{}lll@{}}
-\toprule
-                              & \textbf{BERT\textsubscript{BASE}} & \textbf{BERT\textsubscript{LARGE}} \\ \midrule
-\textbf{Layers}               & 12                 & 24                  \\
-\textbf{Hidden size}          & 768                & 1024                \\
-\textbf{Self-attention heads} & 12                 & 16                  \\
-\textbf{Total parameters}     & 110M               & 340M                \\ \bottomrule
-\end{tabular}%
-\label{tab:bert-models}
-\end{table}
-
-BERT considers a sentence as any sequence of tokens and its input can be a single sentence or a pair of sentences. The token embeddings are generated from a vocabulary built over WordPiece embeddings with 30.000 tokens. Figure~\ref{fig:bert-model-input-output} shows an example of token embeddings for the sentence ``The bug occurs when updating the pretraining mode version''\cite{Ravichandiran:2021}. As the WordPiece tokenizer did not recognize the ``pretraining'' word, it will be split into subwords (e.g., ``pre'', ``\#\#train", and ``\#\#ing'') until the tokenizer finds the subword or until it reaches individual characters, which is handled as the Out-of-Vocabulary (OOV) word.
-
-\begin{figure}[ht!]
-    \centering
-    \includegraphics[width=\textwidth]{figures/bert-model-input-output.pdf}
-    \caption{BERT\textsubscript{BASE} input representation. Since the BERT\textsubscript{BASE} has 768 hidden units, each token
-    size representation will be 768 positions. Figure adapted from Ravichandiran et al.~\cite{Ravichandiran:2021}.}
-    \label{fig:bert-model-input-output}
-\end{figure}
-
-BERT adds the \textsc{[CLS]} token at the beginning of the first sentence and used for classification tasks. This token holds the aggregate representation of the input sentence. The \textsc{[SEP]} token indicates the end of each sentence~\cite{Ravichandiran:2021}. Figure~\ref{fig:bert-three-embedding} shows the embedding generation process executed by the WordPiece tokenizer. First, the tokenizer converts input sentences into tokens before figuring out token embeddings. Thereafter, these tokens feed segment and position embeddings computations. Lastly, the tokenizer sum all embeddings and inputs the results into BERT. Figure~\ref{fig:bert-three-embedding} described three kinds of embeddings~\cite{Devlin:2019}.
-
-\begin{figure}[ht!]
-    \centering
-    \includegraphics[width=\textwidth]{figures/bert-model-input-output-three-embeddings.pdf}
-    \caption{Input representation in BERT, adapted from Devlin et al.~\cite{Devlin:2019}. Input tokens are represented in red color. Token embeddings are represented in yellow color. Segment embeddings are represented in green color. Position embeddings are represented in gray color.}
-    \label{fig:bert-three-embedding}
-\end{figure}
-
- \begin{itemize}
-    \item \textbf{Token embedding}: the word embedding represented by a vector of numbers.
-    \item \textbf{Segment embedding}: the fixed embedding that defines if a token belongs to the first or the second sentence, if this second sentence was inputted.
-    \item \textbf{Position embedding:} the position embedding for each token in a sentence. If there are two sentences, the position in second sentence continues from last position of the first sentence plus one.
-\end{itemize}
-
-\textcolor{red}{ISSUES: 2.5 - give more details about hyperparameters selection}
-The BERT model is pre-trained from two approaches: masked language modeling and next sentence prediction. In the first approach, 15\% of the word piece input tokens are randomly masked, and the network is trained to predict masked words. The model then reads the sentence in both directions to predict the masked words. In the second approach, BERT receives two sentences as input and has to
-predict whether the second one is the subsequent sentence to the first one.
-
-\subsubsection{BERT Variants}
-BERT has many variant models to be more efficient or be more adapted to several contexts.
-
-\begin{table}[!ht]
-\begin{tabular}{@{}lllll@{}}
-\toprule
-Model     &  L & H & A \\ \midrule
-\textbf{ALBERT\textsubscript{BASE}}         &   &   &   \\
-\textbf{BERT\textsubscript{SMALL-M1}}       &   &   &   \\
-\textbf{BERT\textsubscript{SMALL-M2}}       &   &   &   \\
-\textbf{BERT\textsubscript{SMALL-M3}}       &   &   &   \\
-\textbf{BERT\textsubscript{SMALL-M4}}       &   &   &   \\
-\textbf{BERT\textsubscript{BASE}}           &   &   &   \\
-\textbf{DISTILBERT}                         &   &   &   \\
-\textbf{ELECTRA\textsubscript{BASE}}        &   &   &   \\ 
-\textbf{ELECTRA\textsubscript{SMALL}}       &   &   &   \\ 
-\textbf{ROBERTA\textsubscript{BASE}}        &   &   &   \\ 
-\bottomrule
-\end{tabular}
-\end{table}
-
 
 \subsection{Text Mining}
 
@@ -206,13 +107,65 @@ Common ML classifiers cannot directly process unstructured text (e.g., bug repor
 
 Two of the most traditional ways of representing a document rely on the use of a bag of words (unigrams) or a bag of bigrams (when two terms appear consecutively, one after the other)~\cite{Feldman:2006}. In this approach, all terms represent features, and thus the dimension of the feature space is equal to the number of different terms in all documents (in our context, bug reports).  
  
-\textcolor{red}{ISSUES: 2.6 - provide references about TF and TF-IDF and about sparse matrix}
 Methods for assigning weights to features may vary. Two common approaches are Term Frequency~(TF) and Term Frequency-Inverse Document Frequency~(TF-IDF). The former method considers the number of times in which the term appears in each document. The latter method is a more complex weighting scheme that considers the frequency of the term in each document and in the whole collection. The importance of a term in the TF-IDF scheme is proportional to its frequency in a document and inversely proportional to its frequency in the collection~\cite{srivastava:2009}.
 
 We highlight that all encoding methods mentioned above often produce sparse matrices in which most of the values are zero~\cite{Feldman:2006}. One can quantify the sparsity of a matrix by dividing the number of zeroes by the total number of elements in the matrix.
 
+\subsection{Bidirectional Encoder Representations from Transformers (BERT)}
 
+Bidirectional Encoder Representations from Transformers (BERT)~\cite{Devlin:2019} is a deep learning language model which has been successfully utilized in many NLP tasks, such as question answering and text classification~\cite{Devlin:2019,Torfi:2021, Landolt:2021}. Unlike other context-free models, which ignore the context and always give the same static embedding for the word, BERT is an  embedding model that can ``understand'' the context and then generate the dynamic embedding for the word on a given context~\cite{Ravichandiran:2021}. 
 
+BERT considers a sentence as any sequence of tokens, and its input can be a single sentence or a pair of sentences. The token embeddings are generated from a vocabulary built over Word Piece embeddings with 30,000 tokens. Figure~\ref{fig:bert-model-input-output} shows an example of token embeddings for the sentence ``The bug occurs when updating the pretraining mode version''\cite{Ravichandiran:2021}. As the Word Piece tokenizer did not recognize the ``pretraining'' word, it will be split into subwords (e.g., ``pre'', ``\#\#train", and ``\#\#ing'') until the tokenizer finds the subword or until it reaches individual characters, which is handled as the Out-of-Vocabulary (OOV) word.
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=\textwidth]{figures/bert-model-input-output.pdf}
+    \caption{BERT\textsubscript{BASE} input representation. Since the BERT\textsubscript{BASE} has 768 hidden units, each token
+    size representation will be 768 positions. Figure adapted from Ravichandiran et al.~\cite{Ravichandiran:2021}.}
+    \label{fig:bert-model-input-output}
+\end{figure}
+
+BERT adds the \textsc{[CLS]} token at the beginning of the first sentence and used for classification tasks. This token holds the aggregate representation of the input sentence. The \textsc{[SEP]} token indicates the end of each sentence~\cite{Ravichandiran:2021}. Figure~\ref{fig:bert-three-embedding} shows the embedding generation process executed by the Word Piece tokenizer. First, the tokenizer converts input sentences into tokens before figuring out token embeddings. Thereafter, these tokens feed segment and position embeddings computations. Lastly, the tokenizer integrates all embeddings and inputs the results into BERT. Figure~\ref{fig:bert-three-embedding} illustrates three kinds of embeddings~\cite{Devlin:2019}.
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=\textwidth]{figures/bert-model-input-output-three-embeddings.pdf}
+    \caption{Input representation in BERT, adapted from Devlin et al.~\cite{Devlin:2019}. Input tokens are represented in red color. Token embeddings are represented in yellow color. Segment embeddings are represented in green color. Position embeddings are represented in gray color.}
+    \label{fig:bert-three-embedding}
+\end{figure}
+
+ \begin{itemize}
+    \item \textbf{Token embedding}: the word embedding represented by a vector of numbers.
+    \item \textbf{Segment embedding}: the fixed embedding that defines if a token belongs to the first or the second sentence, if this second sentence was inputted.
+    \item \textbf{Position embedding:} the position embedding for each token in a sentence. If there are two sentences, the position in the second sentence continues from the last position of the first sentence plus one.
+\end{itemize}
+
+%\textcolor{red}{ISSUES: 2.5 - give more details about hyperparameters selection}
+BERT model is pre-trained from two approaches: masked language modeling and next sentence prediction. In the first approach, 15\% of the word piece input tokens are randomly masked, and the network is trained to predict masked words. The model then reads the sentence in both directions to predict the masked words. In the second approach, BERT receives two sentences as input and has to
+predict whether the second one is the subsequent sentence to the first one.
+
+\subsubsection{BERT Variants}
+BERT has many variant models. Their proposal often aimed to make the original formulation more efficient or be more adapted to several contexts. Table~\ref{tab:bert-variants} shows the descriptions of variants used in our research.
+
+\begin{table}[!ht]
+\centering
+\caption{BERT variants. (L) number of layers, (H) number of hidden units, (A) number of self-attention operations, (P) millions of parameters.}
+\begin{tabular}{@{}lp{5.6cm}rrrrr@{}}
+\toprule
+Model   & Description  &  L & H & A & P\\ \midrule
+\textbf{ALBERT\textsubscript{BASE}~\cite{Zhenzhong:2019}} &  A ``lite'' version of BERT with greatly reduced number of parameters.  &  12 & 768 &  12 & 12 \\
+\textbf{BERT\textsubscript{L2H128A2}~\cite{turc:2019}}   & A smaller BERT model is intended for environments with restricted computational resources. &  2 & 128  &  2 & 0.5\\
+\textbf{BERT\textsubscript{L4H256A4}~\cite{turc:2019}}   & A smaller BERT model is intended for environments with restricted computational resources.  & 4  &  256 &  4 & 4\\
+\textbf{BERT\textsubscript{L4H512A8}~\cite{turc:2019}}   & A smaller BERT model is intended for environments with restricted computational resources.  &  4 &  512 &  8 & 16\\
+\textbf{BERT\textsubscript{L8H512A8}~\cite{turc:2019}}   & A smaller BERT model is intended for environments with restricted computational resources.  &  8 & 512  &  8 & 32\\
+\textbf{BERT\textsubscript{BASE}\cite{Devlin:2019}}       &  A smaller BERT model is intended for environments with restricted computational resources.  & 12  & 768  & 12 & 105\\
+\textbf{DISTILBERT\cite{sanh:2019}}                    &  A small, fast, cheap and light Transformer model trained by distilling BERT base cased model. &  6 &  768 & 12 & 55\\
+\textbf{ELECTRA\textsubscript{SMALL}\cite{clark:2020}}   &   ELECTRA is a BERT-like model that is pre-trained as a discriminator in a set-up resembling a generative adversarial network (GAN) &  4 & 512  &  8  & 24\\ 
+\textbf{ELECTRA\textsubscript{BASE}\cite{clark:2020}}~    & ELECTRA is a BERT-like model that is pre-trained as a discriminator in a set-up resembling a generative adversarial network (GAN)    & 12  & 768  & 12 & 105\\ 
+\bottomrule
+\end{tabular}
+\label{tab:bert-variants}
+\end{table}
 
 
 

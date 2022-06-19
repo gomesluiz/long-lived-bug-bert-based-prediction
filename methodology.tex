@@ -1,6 +1,6 @@
 \section{Methodology}\label{chapter:4:sec:methodology}
 
-Figure \ref{fig:machine-learning-methodology} shows the methodology used in our experiments to address the proposed research questions. The methodology followed the traditional machine learning pipeline that comprises the main steps: data collecting, feature engineering, training, and testing models.
+Figure \ref{fig:machine-learning-methodology} presents the methodology used in our experiments to address the proposed research questions. The methodology follows the traditional machine learning pipeline that comprises four main steps: data collecting, feature engineering, model training, and model testing.
 
 \begin{figure}[!ht]
     \centering
@@ -15,15 +15,13 @@ It is worth noticing that we used only BERT\textsubscript{BASE} for feature extr
 
 First, we downloaded bug reports from Bugzilla repositories of six FLOSS projects which are fairly used in research papers~\cite{Lamkanfi:2010, Lamkanfi:2010b, Lamkanfi:2011, Tian:2012, Valdivia:2014, gomes:2019}: Eclipse, Freedesktop, GCC, Gnome, Mozilla, and WineHQ. Then, we extracted, investigated, and interpreted their data structure and labeled each bug report as short-lived or long-lived. Lastly, we stored them in one file per project in a CSV format. These datasets are publicly available on \href{https://data.mendeley.com/datasets/v446tfssgj/2}{Mendeley Data} and Table~\ref{tab:floss_projects} shows additional information of them.
 
-%Eclipse,\footnote{\url{https://www.eclipse.org} (As of April 2021).} Freedesktop,\footnote{\url{https://www.freedesktop.org} (As of April 2021).} GCC,\footnote{\url{https://gcc.gnu.org/} (As of April 2021).} Gnome,\footnote{\url{https://www.gnome.org} (As of April 2021).} Mozilla,\footnote{\url{https://www.mozilla.org} (As of April 2021).} and WineHQ.\footnote{\url{https://www.winehq.org} (As of April 2021).}
-
 \begin{table}[ht!]
   \centering
   \caption{FLOSS projects used in our research.}
   \label{tab:floss_projects} 
   \begin{tabular}{@{}llrcc@{}}
     \toprule
-    \multirow{2}{*}{{\bf Project}} & \multirow{2}{*}{{\bf URL}}     & \multicolumn{3}{c}{{\bf Number of Bug Reports}}\\ \cmidrule(l){3-5} 
+    \multirow{2}{*}{{\bf Project}} & \multirow{2}{*}{{\bf URL (As of June 2022)}}     & \multicolumn{3}{c}{{\bf Number of Bug Reports}}\\ \cmidrule(l){3-5} 
                                    &                                & {\bf Total}        & {\bf Training set}   & {\bf Testing set}\\ \midrule
     Eclipse         & \url{https://www.eclipse.org}         & 9540               & 7155                 & 2385\\
     Freedesktop     & \url{https://www.freedesktop.org}     & 7626               & 5719                 & 1907\\
@@ -51,38 +49,65 @@ Finally, we split each dataset into training (75\% of bug reports total) and tes
 
 After the data preprocessing step, we used two distinct strategies to extract features from bug report descriptions for comparing them in long-lived prediction task, as shown in~(Figure~\ref{fig:machine-learning-methodology}): BERT or TF-IDF. Although BERT allows 512 tokens per input sentence~\cite{Devlin:2019}, for saving memory resource and faster training of pre-training model, we selected the 128 first tokens of the bug report description~\cite{ardimento:2020, sun:2020}. Then, we generated a embedding feature vector with 768 positions from the aggregate representation of input sentence denoted by \textsc{[CLS]} token of BERT. In turn, we used the 128 words with the highest score in TF-IDF from bug report description. In this way, TF-IDF generated a feature vector of inverse-frequency words with 128 positions.
 
-\subsection{Training Model}
+\subsection{Model Training}
 
-To train our models for the long-lived bugs predicting task, we selected the five well-known ML classifiers described in Section~\ref{chapter:4:sec:terminology}. They were implemented them using Scikit-learn\footnote{\url{https://scikit-learn.org/stable/}} -- a Python Machine Learning Library to build the predictive models, including a grid search procedure to select the best hyperparameters for each classifier in training among the hyperparameters available (Table \ref{tab:hyperparameters-candidates}). 
+To train our models for the long-lived bugs predicting task, we selected the five well-known ML classifiers described in Section~\ref{chapter:4:sec:terminology}. They were implemented them using Scikit-learn\footnote{\url{https://scikit-learn.org/stable/} (As of June 2022).} -- a Python Machine Learning Library to build the predictive models, including a grid search procedure to select the best hyperparameters for each classifier in training among the hyperparameters indicated in Table \ref{chapter:4:tab:hyperparameters-descriptions}. 
 
-The scripts, using the before-mentioned library, evaluated each model using the Balanced Accuracy metric and reported the resulting values. To select the best model for each ML classifier, we trained and tested each model using the Repeated $10 \times 5$ Fold Cross-Validation technique~\cite{Japkowicz:2011}\footnote{Repeated Cross-Validation $n \times k$: divides a dataset 
-into $k$ folds in $n$ iterations. In each iteration, it saves a different fold for testing and uses all the others for training~\cite{kuhn:2013}.}, as shown in Figure~\ref{fig:repeated-cross-validation-1}. 
+The scripts, using the before-mentioned library, evaluated each model using the Balanced Accuracy metric and reported the resulting values. To select the best model for each ML classifier, we trained and tested each model using the Repeated $10 \times 5$ Fold Cross-Validation technique~\cite{Japkowicz:2011},\footnote{Repeated Cross-Validation $n \times k$: divides a dataset 
+into $k$ folds in $n$ iterations. In each iteration, it saves a different fold for testing and uses all the others for training~\cite{kuhn:2013}.} as shown in Figure~\ref{fig:repeated-cross-validation-1}. 
+
+Table~\ref{chapter:4:tab:hyperparameters-descriptions} presents the hyperparameters for each ML classifier used in our study.
+\begin{table}[ht!]
+    \centering
+	\caption{Description of the hyperparameters for each ML classifier investigated.}
+	\begin{tabular}{@{}p{3cm}p{7.5cm}@{}}
+		\toprule
+		\textbf{ML Classifier} & \textbf{Hyper-parameters} \\
+		\midrule
+        KNN & {\bf k}: Number of neighbors \\
+        \midrule
+        Na\"ive Bayes & {\bf var\_smoothing}: Portion of the largest variance of all features that is added to variances for calculation stability.\\
+	    \midrule
+	    Neural Network & {\bf size}: Hidden units\newline
+	    {\bf activation}: Activation function for the hidden layer.\newline
+	    {\bf solver}: The solver for weight optimization.\newline
+	    {\bf alpha}: L2 penalty (regularization term) parameter.\\
+        \midrule
+        Random Forest & {\bf max\_features}: The number of features to consider when looking for the best split.\newline
+        {\bf n\_estimators}: The number of trees in the forest.\\
+	    \midrule
+	    SVM & {\bf C}: Regularization cost parameter\newline
+	    {\bf gamma}: Kernel coefficient for `rbf', `poly' and `sigmoid'.\newline
+	    {\bf kernel}: Specifies the kernel type to be used in the algorithm. \\
+		\bottomrule
+	\end{tabular}
+  	 \label{chapter:4:tab:hyperparameters-descriptions}
+\end{table}
 
 \begin{figure}[!t]
     \centering
     \includegraphics[width=\textwidth]{figures/repeated-cross-validation-scheme-1.pdf}
-    \caption{Repeated cross validation process}
+    \caption{Repeated cross validation process.}
     \label{fig:repeated-cross-validation-1}
 \end{figure}
 
-Finally, we performed the Wilcoxon signed-rank statistical test~\cite{Wilcoxon:1992} (with a significance level of 95\%) to evaluate the statistical significance among the ML classifier accuracies based on values reported in the Repeated Cross-Validation procedure~(Figure~\ref{fig:fig:repeated-cross-validation-2}. We ran these steps either for BERT or TF-IDF feature vectors independently.
+Finally, we performed the Wilcoxon signed-rank statistical test~\cite{Wilcoxon:1992} (with a significance level of 95\%) to evaluate the statistical significance among the ML classifier accuracies based on values reported in the Repeated Cross-Validation procedure~(Figure~\ref{fig:fig:repeated-cross-validation-2}). We ran these steps either for BERT or TF-IDF feature vectors independently.
 
-\done{ISSUES: 2.4, 2.12 - give more details about hyperparameters selection}
-\begin{table}[!t]\centering
-	\caption{Candidate hyperparameters values for ML classifiers.}
-	\begin{tabular}{@{}p{3cm}p{5.5cm}@{}}
-		\toprule
-		\textbf{ML Classifier} & \textbf{Hyperparameters} \\ 
-		\midrule
-    k-NN & k = \{5, 11, 15, 21, 25, 33\}\\
-    Na\"ive Bayes & var\_smoothing = $\{10,\dots, 10^{-9}\}$\tablefootnote{100 numbers evenly spaced on a log scale.}\\
-		Neural Network & size= \{(10, 20, 30, 40, 50)\}, \{(20 ,)\}, activation=`relu', solver=`adam', alpha=\{0.0001, 0.05\}\\ 
-    Random Forest & max\_features = \{25, 50, 75, 100\} and n\_estimators = 200\\
-		SVM & C=$2^{-5}$, $2^{0}$, $2^{5}$, $2^{10}$ and gamma= $\{2^{-15}$, $2^{-10}$,  $2^{-5}$, $2^{0}$, $2^5\}$, kernel=`rbf'\\
-		\bottomrule
-	\end{tabular}
-  	\label{tab:hyperparameters-candidates}
-\end{table}
+%\begin{table}[!t]\centering
+%	\caption{Candidate hyperparameters values for ML classifiers.}
+%	\begin{tabular}{@{}p{3cm}p{5.5cm}@{}}
+%		\toprule
+%		\textbf{ML Classifier} & \textbf{Hyperparameters} \\ 
+%		\midrule
+%    k-NN & k = \{5, 11, 15, 21, 25, 33\}\\
+%    Na\"ive Bayes & var\_smoothing = $\{10,\dots, 10^{-9}\}$\tablefootnote{100 numbers evenly spaced on a log scale.}\\
+%		Neural Network & size= \{(10, 20, 30, 40, 50)\}, \{(20 ,)\}, activation=`relu', solver=`adam', alpha=\{0.0001, 0.05\}\\ 
+%    Random Forest & max\_features = \{25, 50, 75, 100\} and n\_estimators = 200\\
+%		SVM & C=$2^{-5}$, $2^{0}$, $2^{5}$, $2^{10}$ and gamma= $\{2^{-15}$, $2^{-10}$,  $2^{-5}$, $2^{0}$, $2^5\}$, kernel=`rbf'\\
+%		\bottomrule
+%	\end{tabular}
+%  	\label{tab:hyperparameters-candidates}
+%\end{table}
 
 \begin{figure}[!ht]
     \centering
